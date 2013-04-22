@@ -21,20 +21,22 @@ namespace Labyrinth
 
         public static int currentMoves;
 
-        public static List<Table> scores = new List<Table>(4);
+        public static List<Table> Scores = new List<Table>(4);
+
         protected static void DisplayLabyrinth(string[,] labyrinth)
         {
-            for (int linee = 0; linee < 7; linee++)
+            for (int columnIndex = 0; columnIndex < 7; columnIndex++)
             {
-                string s1 = labyrinth[linee, 0];
-                string s2 = labyrinth[linee, 1];
-                string s3 = labyrinth[linee, 2];
-                string s4 = labyrinth[linee, 3];
-                string s5 = labyrinth[linee, 4];
-                string s6 = labyrinth[linee, 5];
-                string s7 = labyrinth[linee, 6];
+                string firstElement = labyrinth[columnIndex, 0];
+                string secondElement = labyrinth[columnIndex, 1];
+                string thirdElement = labyrinth[columnIndex, 2];
+                string fourthElement = labyrinth[columnIndex, 3];
+                string fifthElement = labyrinth[columnIndex, 4];
+                string sixthElement = labyrinth[columnIndex, 5];
+                string seventhElement = labyrinth[columnIndex, 6];
 
-                Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ", s1, s2, s3, s4, s5, s6, s7);
+                Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ",
+                    firstElement, secondElement, thirdElement, fourthElement, fifthElement, sixthElement, seventhElement);
             }
             Console.WriteLine();
         }
@@ -43,75 +45,77 @@ namespace Labyrinth
         {
             Random randomInt = new Random();
 
-            for (int i = 0; i < 7; i++)
+            for (int row = 0; row < 7; row++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int column = 0; column < 7; column++)
                 {
-                    labyrinth[i, j] = Convert.ToString(randomInt.Next(2));
-                    if (labyrinth[i, j] == "0")
+                    labyrinth[row, column] = Convert.ToString(randomInt.Next(2));
+                    if (labyrinth[row, column] == "0")
                     {
-                        labyrinth[i, j] = "-";
+                        labyrinth[row, column] = "-";
                     }
                     else
                     {
-                        labyrinth[i, j] = "x";
+                        labyrinth[row, column] = "x";
                     }
                 }
             }
+
             labyrinth[positionX, positionY] = "*";
         }
 
-        protected static void SolutionChecker(string[,] labyrinth, int x, int y)
+        protected static void SolutionChecker(string[,] labyrinth, int rowIndex, int columnIndex)
         {
-            bool checking = true;
+            bool isInsideMatrix = true;
 
-            if (labyrinth[x + 1, y] == "x" && labyrinth[x, y + 1] == "x" && labyrinth[x - 1, y] == "x" && labyrinth[x, y - 1] == "x")
+            if (labyrinth[rowIndex + 1, columnIndex] == "x" && labyrinth[rowIndex, columnIndex + 1] == "x" 
+                && labyrinth[rowIndex - 1, columnIndex] == "x" && labyrinth[rowIndex, columnIndex - 1] == "x")
             {
-                checking = false;
+                isInsideMatrix = false;
             }
 
-            while (checking)
+            while (isInsideMatrix)
             {
                 try
                 {
-                    if (labyrinth[x + 1, y] == "-")
+                    if (labyrinth[rowIndex + 1, columnIndex] == "-")
                     {
-                        labyrinth[x + 1, y] = "0";
-                        x++;
+                        labyrinth[rowIndex + 1, columnIndex] = "0";
+                        rowIndex++;
                     }
-                    else if (labyrinth[x, y + 1] == "-")
+                    else if (labyrinth[rowIndex, columnIndex + 1] == "-")
                     {
-                        labyrinth[x, y + 1] = "0";
-                        y++;
+                        labyrinth[rowIndex, columnIndex + 1] = "0";
+                        columnIndex++;
                     }
-                    else if (labyrinth[x - 1, y] == "-")
+                    else if (labyrinth[rowIndex - 1, columnIndex] == "-")
                     {
-                        labyrinth[x - 1, y] = "0";
-                        x--;
+                        labyrinth[rowIndex - 1, columnIndex] = "0";
+                        rowIndex--;
                     }
-                    else if (labyrinth[x, y - 1] == "-")
+                    else if (labyrinth[rowIndex, columnIndex - 1] == "-")
                     {
-                        labyrinth[x, y - 1] = "0";
-                        y--;
+                        labyrinth[rowIndex, columnIndex - 1] = "0";
+                        columnIndex--;
                     }
                     else
                     {
-                        checking = false;
+                        isInsideMatrix = false;
                     }
                 }
                 catch (Exception)
                 {
-                    for (int i = 0; i < 7; i++)
+                    for (int row = 0; row < 7; row++)
                     {
-                        for (int j = 0; j < 7; j++)
+                        for (int column = 0; column < 7; column++)
                         {
-                            if (labyrinth[i, j] == "0")
+                            if (labyrinth[row, column] == "0")
                             {
-                                labyrinth[i, j] = "-";
+                                labyrinth[row, column] = "-";
                             }
                         }
 
-                        checking = false;
+                        isInsideMatrix = false;
                         flag = true;
                     }
                 }
