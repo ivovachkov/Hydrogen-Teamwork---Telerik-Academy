@@ -31,7 +31,7 @@ namespace Labyrinth
             }
         }
 
-        static void Add(List<Table> s, int m)
+        static void Add(List<Table> s, int m) //TODO: change name of "s" and "m"
         {
             if (s.Count != 0)
             {
