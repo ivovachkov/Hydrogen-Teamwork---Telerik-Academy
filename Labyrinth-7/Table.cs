@@ -2,7 +2,8 @@ namespace Labyrinth
 {
     public class Table
     {
-        private int moves;
+        private int availableMoves;
+
         private string name;
 
         public string Name
@@ -21,17 +22,17 @@ namespace Labyrinth
         {
             get
             {
-                return this.moves;
+                return this.availableMoves;
             }
             set
             {
-                this.moves = value;
+                this.availableMoves = value;
             }
         }
 
         public Table(int moves, string name)
         {
-            this.moves = moves;
+            this.availableMoves = moves;
             this.name = name;
         }
     }
