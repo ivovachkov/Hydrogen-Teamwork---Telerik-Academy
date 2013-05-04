@@ -5,19 +5,26 @@ namespace Labyrinth
 {
     class Labyrinth : Game
     {
+        public const int LabyrinthSize = 7;
+
         static void Main(string[] args)
         {
-            positionX = positionY = 3;  // player position
-            flag2 = flag3 = true;
-            string[,] labyrinth = new string[7, 7];
+            positionX = 3;
+            positionY = 3;
+            flag2 = true;
+            flag3 = true;
+            string[,] labyrinth = new string[LabyrinthSize, LabyrinthSize];
 
             while (flag3)
             {
-                Console.WriteLine("Welcome to \"Labyrinth\" game. Please try to escape. Use 'top' to view the top \nscoreboard,'restart' to start a new game and 'exit' to quit the game.\n ");
+                Console.WriteLine(
+                    "Welcome to \"Labyrinth\" game. Please try to escape. " + 
+                    "Use 'top' to view the top \nscoreboard,'restart' to start a new game and 'exit' to quit the game.\n ");
 
-                flag = flag4 = false;
+                flag = false;
+                flag4 = false;
 
-                while (flag == false)
+                while (!flag)
                 {
                     LabyrinthGenerator(labyrinth, positionX, positionY);
                     SolutionChecker(labyrinth, positionX, positionY);
@@ -26,41 +33,44 @@ namespace Labyrinth
                 Test(labyrinth, flag2, positionX, positionY);
                 while (flag4) //used for adding score only when game is finished naturally and not by the restart command.
                 {
-                    Add(Scores, currentMoves);
+                    AddNewScore(Scores, currentMoves);
                 }
             }
         }
 
-        static void Add(List<Table> s, int m) //TODO: change name of "s" and "m"
+        static void AddNewScore(List<Table> scores, int moves)
         {
-            if (s.Count != 0)
+            if (scores.Count != 0)
             {
-                s.Sort(delegate(Table s1, Table s2) { return s1.Moves.CompareTo(s2.Moves); });
+                scores.Sort(delegate(Table firstScore, Table secondScore)
+                {
+                    return firstScore.Moves.CompareTo(secondScore.Moves);
+                });
             }
 
-            if (s.Count == 5)
+            if (scores.Count == 5)
             {
-                if (s[4].Moves > m)
+                if (scores[4].Moves > moves)
                 {
-                    s.Remove(s[4]);
+                    scores.Remove(scores[4]);
                     Console.WriteLine("Please enter your nickname");
                     string name = Console.ReadLine();
-                    s.Add(new Table(m, name));
-                    Table_(s);
+                    scores.Add(new Table(moves, name));
+                    UpdateScoreSheet(scores);
                 }
             }
-            if (s.Count < 5)
+            if (scores.Count < 5)
             {
                 Console.WriteLine("Please enter your nickname");
                 string name = Console.ReadLine();
-                s.Add(new Table(m, name));
-                Table_(s);
+                scores.Add(new Table(moves, name));
+                UpdateScoreSheet(scores);
             }
 
             flag4 = false;
         }
 
-        static void Table_(List<Table> scores)
+        static void UpdateScoreSheet(List<Table> scores)
         {
             Console.WriteLine("\n");
             if (scores.Count == 0)
@@ -69,16 +79,22 @@ namespace Labyrinth
             }
             else
             {
-                int i = 1;
-                scores.Sort(delegate(Table s1, Table s2) {
-                    return s1.Moves.CompareTo(s2.Moves);
-                });
+                int rankPosition = 1;
+                scores.Sort(
+                    delegate(Table firstScore, Table secondScore)
+                    {
+                        return firstScore.Moves.CompareTo(secondScore.Moves);
+                    }
+                );
                 Console.WriteLine("Top 5: \n");
-                scores.ForEach(delegate(Table s)
-                {
-                    Console.WriteLine(String.Format(i + ". {1} ---> {0} moves", s.Moves, s.Name));
-                    i++;   
-                });
+
+                scores.ForEach(
+                    delegate(Table score)
+                    {
+                        Console.WriteLine(String.Format(rankPosition + ". {1} ---> {0} moves", score.Moves, score.Name));
+                        rankPosition++;
+                    }
+                );
                 Console.WriteLine("\n");
             }
         }
@@ -285,7 +301,7 @@ namespace Labyrinth
 
                         break;
                     case "top":
-                        Table_(Scores);
+                        UpdateScoreSheet(Scores);
                         Console.WriteLine("\n");
                         DisplayLabyrinth(labyrinth);
                         break;
