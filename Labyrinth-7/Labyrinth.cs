@@ -9,12 +9,10 @@ namespace Labyrinth
 
         static void Main()
         {
-            positionX = 3;
-            positionY = 3;
-            Game.isRunning = true;
-            
+            Game.Position.X = 3;
+            Game.Position.Y = 3;
+            Game.isRunning = true;            
             string[,] labyrinth = new string[LabyrinthSize, LabyrinthSize];
-
 
             // The game is running till we stop it with exit command. There we are using Environment.Exit(0);
             // TODO make stoping better
@@ -30,12 +28,12 @@ namespace Labyrinth
 
                 while (!Game.isFinished)
                 {
-                    LabyrinthGenerator(labyrinth, positionX, positionY);
-                    SolutionChecker(labyrinth, positionX, positionY);
+                    LabyrinthGenerator(labyrinth, position.X, position.Y);
+                    SolutionChecker(labyrinth, position.X, position.Y);
                 }
 
                 PrintLabyrinth(labyrinth);
-                Test(labyrinth, Game.isRunning, positionX, positionY);
+                Test(labyrinth, Game.isRunning, position.X, position.Y);
                 
                 //used for adding score only when game is finished naturally and not by the restart command.
                 while (Game.isWonWithEscape) 

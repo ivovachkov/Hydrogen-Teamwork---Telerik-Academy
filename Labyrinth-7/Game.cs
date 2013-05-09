@@ -12,9 +12,11 @@ namespace Labyrinth
 
         public static bool isWonWithEscape;
 
-        public static int positionX;
+        public static Position position = new Position();
 
-        public static int positionY;
+       // public static int positionX;
+
+       // public static int positionY;
 
         private static int currentMoves;
 
@@ -23,12 +25,25 @@ namespace Labyrinth
 
         public static List<Table> Scores = new List<Table>(4);
 
+        public static Position Position
+        {
+            get
+            {
+                return position;
+            }
+            set
+            {
+                position = value;
+            }
+        }
+
         public static int CurrentMoves
         {
             get
             {
                 return currentMoves;
             }
+
             protected set
             {
                 currentMoves = value;
@@ -51,18 +66,6 @@ namespace Labyrinth
 
                 //Because on the next row we have to begin on a new line.
                 result.Append("\n");
-
-                //string firstElement = labyrinth[columnIndex, 0];
-                //string secondElement = labyrinth[columnIndex, 1];
-                //string thirdElement = labyrinth[columnIndex, 2];
-                //string fourthElement = labyrinth[columnIndex, 3];
-                //string fifthElement = labyrinth[columnIndex, 4];
-                //string sixthElement = labyrinth[columnIndex, 5];
-                //string seventhElement = labyrinth[columnIndex, 6];
-
-                //Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ",
-                //    firstElement, secondElement, thirdElement, fourthElement,
-                //    fifthElement, sixthElement, seventhElement);
             }
 
             Console.WriteLine(result);
@@ -90,25 +93,25 @@ namespace Labyrinth
                 }
             }
 
-            labyrinth[positionX, positionY] = "*";
+            labyrinth[position.X, position.Y] = "*";
         }
 
         protected static void SolutionChecker(string[,] labyrinth, int rowIndex, int columnIndex)
         {
-            bool isInsideMatrix = true;
+            bool isAbleToMove = true;
 
             if (labyrinth[rowIndex + 1, columnIndex] == "x" && labyrinth[rowIndex, columnIndex + 1] == "x" 
                 && labyrinth[rowIndex - 1, columnIndex] == "x" && labyrinth[rowIndex, columnIndex - 1] == "x")
             {
-                isInsideMatrix = false;
+                isAbleToMove = false;
             }
 
-            while (isInsideMatrix)
+            while (isAbleToMove)
             {
                 try
                 {
                     // Extracted Method which checks is the move inside the matrix
-                    IsInsideLabyrint(labyrinth, ref rowIndex, ref columnIndex, ref isInsideMatrix);
+                    IsInsideLabyrint(labyrinth, ref rowIndex, ref columnIndex, ref isAbleToMove);
                 }
                 catch (Exception)
                 {
@@ -122,7 +125,7 @@ namespace Labyrinth
                             }
                         }
 
-                        isInsideMatrix = false;
+                        isAbleToMove = false;
                         isFinished = true;
                     }
                 }
