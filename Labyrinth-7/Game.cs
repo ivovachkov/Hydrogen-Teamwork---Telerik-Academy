@@ -1,55 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Labyrinth
 {
     public class Game
     {
-        public static bool flag;
+        public static bool isFinished;
 
-        public static bool flag2;
+        public static bool isRunning;
 
-        public static bool flag3;
-
-        public static bool flag4;
+        public static bool isWonWithEscape;
 
         public static int positionX;
 
         public static int positionY;
 
-        public static int currentMoves;
+        private static int currentMoves;
 
-        //Added new field for better use of random numberes
+        // Added new field for better use of random numberes
         private static readonly Random randomNumber = new Random();
 
         public static List<Table> Scores = new List<Table>(4);
 
-        protected static void DisplayLabyrinth(string[,] labyrinth)
+        public static int CurrentMoves
         {
-            //Removing the magic number 7 and swithing it with the number of columns in the labyrinth
+            get
+            {
+                return currentMoves;
+            }
+            protected set
+            {
+                currentMoves = value;
+            }
+        }
 
+        protected static void PrintLabyrinth(string[,] labyrinth)
+        {
+            // Removing the magic number 7 and swithing it with the number of columns in the labyrinth
             int columnsInLabyrinth = labyrinth.GetLength(0);
+            StringBuilder result = new StringBuilder();
 
             for (int columnIndex = 0; columnIndex < columnsInLabyrinth; columnIndex++)
             {
-                string firstElement = labyrinth[columnIndex, 0];
-                string secondElement = labyrinth[columnIndex, 1];
-                string thirdElement = labyrinth[columnIndex, 2];
-                string fourthElement = labyrinth[columnIndex, 3];
-                string fifthElement = labyrinth[columnIndex, 4];
-                string sixthElement = labyrinth[columnIndex, 5];
-                string seventhElement = labyrinth[columnIndex, 6];
 
-                Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ",
-                    firstElement, secondElement, thirdElement, fourthElement, fifthElement, sixthElement, seventhElement);
+                for (int index = 0; index < columnsInLabyrinth; index++)
+                {
+                    result.Append(labyrinth[columnIndex, index]).Append(" ");
+                }
+
+                //Because on the next row we have to begin on a new line.
+                result.Append("\n");
+
+                //string firstElement = labyrinth[columnIndex, 0];
+                //string secondElement = labyrinth[columnIndex, 1];
+                //string thirdElement = labyrinth[columnIndex, 2];
+                //string fourthElement = labyrinth[columnIndex, 3];
+                //string fifthElement = labyrinth[columnIndex, 4];
+                //string sixthElement = labyrinth[columnIndex, 5];
+                //string seventhElement = labyrinth[columnIndex, 6];
+
+                //Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} ",
+                //    firstElement, secondElement, thirdElement, fourthElement,
+                //    fifthElement, sixthElement, seventhElement);
             }
 
-            Console.WriteLine();
+            Console.WriteLine(result);
         }
 
         protected static void LabyrinthGenerator(string[,] labyrinth, int x, int y)
         {
-            //Removed use of the magic number 7 for the number of rows and columns
+            // Removed use of the magic number 7 for the number of rows and columns
             int numberOfRows = labyrinth.GetLength(0);
             int numberOfColumns = labyrinth.GetLength(1);
 
@@ -86,7 +107,7 @@ namespace Labyrinth
             {
                 try
                 {
-                    //Extracted Method which checks is the move inside the matrix
+                    // Extracted Method which checks is the move inside the matrix
                     IsInsideLabyrint(labyrinth, ref rowIndex, ref columnIndex, ref isInsideMatrix);
                 }
                 catch (Exception)
@@ -102,13 +123,14 @@ namespace Labyrinth
                         }
 
                         isInsideMatrix = false;
-                        flag = true;
+                        isFinished = true;
                     }
                 }
             }
         }
   
-        private static void IsInsideLabyrint(string[,] labyrinth, ref int rowIndex, ref int columnIndex, ref bool isInsideMatrix)
+        private static void IsInsideLabyrint(string[,] labyrinth, ref int rowIndex,
+            ref int columnIndex, ref bool isInsideMatrix)
         {
             if (labyrinth[rowIndex + 1, columnIndex] == "-")
             {

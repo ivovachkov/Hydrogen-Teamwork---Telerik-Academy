@@ -3,37 +3,44 @@ using System.Collections.Generic;
 
 namespace Labyrinth
 {
-    class Labyrinth : Game
+    public class Labyrinth : Game
     {
         public const int LabyrinthSize = 7;
 
-        static void Main(string[] args)
+        static void Main()
         {
             positionX = 3;
             positionY = 3;
-            flag2 = true;
-            flag3 = true;
+            Game.isRunning = true;
+            
             string[,] labyrinth = new string[LabyrinthSize, LabyrinthSize];
 
-            while (flag3)
+
+            // The game is running till we stop it with exit command. There we are using Environment.Exit(0);
+            // TODO make stoping better
+            while (true)
             {
                 Console.WriteLine(
                     "Welcome to \"Labyrinth\" game. Please try to escape. " + 
-                    "Use 'top' to view the top \nscoreboard,'restart' to start a new game and 'exit' to quit the game.\n ");
+                    "Use 'top' to view the top \nscoreboard,'restart' to start "+
+                     "a new game and 'exit' to quit the game.\n ");
 
-                flag = false;
-                flag4 = false;
+                Game.isFinished = false;
+                Game.isWonWithEscape = false;
 
-                while (!flag)
+                while (!Game.isFinished)
                 {
                     LabyrinthGenerator(labyrinth, positionX, positionY);
                     SolutionChecker(labyrinth, positionX, positionY);
                 }
-                DisplayLabyrinth(labyrinth);
-                Test(labyrinth, flag2, positionX, positionY);
-                while (flag4) //used for adding score only when game is finished naturally and not by the restart command.
+
+                PrintLabyrinth(labyrinth);
+                Test(labyrinth, Game.isRunning, positionX, positionY);
+                
+                //used for adding score only when game is finished naturally and not by the restart command.
+                while (Game.isWonWithEscape) 
                 {
-                    AddNewScore(Scores, currentMoves);
+                    AddNewScore(Scores, Game.CurrentMoves);
                 }
             }
         }
@@ -67,7 +74,7 @@ namespace Labyrinth
                 UpdateScoreSheet(scores);
             }
 
-            flag4 = false;
+            isWonWithEscape = false;
         }
 
         static void UpdateScoreSheet(List<Table> scores)
@@ -99,9 +106,9 @@ namespace Labyrinth
             }
         }
 
-        static void Test(string[,] labyrinth, bool flagTemp, int x, int y)
+        static void Test(string[,] labyrinth, bool flagTemp, int moveCount, int y)
         {
-            currentMoves = 0;
+            Game.CurrentMoves = 0;
 
             while (flagTemp)
             {
@@ -113,105 +120,107 @@ namespace Labyrinth
                 {
                     case "d":
 
-                        if (labyrinth[x + 1, y] == "-")
+                        if (labyrinth[moveCount + 1, y] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x + 1, y] = "*";
-                            x++;
-                            currentMoves++;
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount + 1, y] = "*";
+                            moveCount++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (x == 6)
+                        if (moveCount == 6)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
-                            flagTemp = false;
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
+                                Game.CurrentMoves);
 
-                            flag4 = true;
+                            flagTemp = false;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
                         break;
                     case "D":
-                        if (labyrinth[x + 1, y] == "-")
+                        if (labyrinth[moveCount + 1, y] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x + 1, y] = "*";
-                            x++;
-                            currentMoves++;
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount + 1, y] = "*";
+                            moveCount++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (x == 6)
+                        if (moveCount == 6)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
+                                Game.CurrentMoves);
+
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
 
                         break;
                     case "u":
-                        if (labyrinth[x - 1, y] == "-")
+                        if (labyrinth[moveCount - 1, y] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x - 1, y] = "*";
-                            x--;
-                            currentMoves++;
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount - 1, y] = "*";
+                            moveCount--;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (x == 0)
+                        if (moveCount == 0)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", Game.CurrentMoves);
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
-
+                        PrintLabyrinth(labyrinth);
                         break;
                     case "U":
-                        if (labyrinth[x - 1, y] == "-")
+                        if (labyrinth[moveCount - 1, y] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x - 1, y] = "*";
-                            x--;
-                            currentMoves++;
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount - 1, y] = "*";
+                            moveCount--;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (x == 0)
+                        if (moveCount == 0)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", Game.CurrentMoves);
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
 
                         break;
                     case "r":
 
-                        if (labyrinth[x, y + 1] == "-")
+                        if (labyrinth[moveCount, y + 1] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x, y + 1] = "*";
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount, y + 1] = "*";
                             y++;
-                            currentMoves++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
@@ -220,22 +229,24 @@ namespace Labyrinth
 
                         if (y == 6)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
+                                Game.CurrentMoves);
+
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
 
                         break;
                     case "R":
 
-                        if (labyrinth[x, y + 1] == "-")
+                        if (labyrinth[moveCount, y + 1] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x, y + 1] = "*";
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount, y + 1] = "*";
                             y++;
-                            currentMoves++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
@@ -244,22 +255,23 @@ namespace Labyrinth
 
                         if (y == 6)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
+                                Game.CurrentMoves);
+
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
-
+                        PrintLabyrinth(labyrinth);
                         break;
                     case "l":
 
-                        if (labyrinth[x, y - 1] == "-")
+                        if (labyrinth[moveCount, y - 1] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x, y - 1] = "*";
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount, y - 1] = "*";
                             y--;
-                            currentMoves++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
@@ -268,22 +280,24 @@ namespace Labyrinth
 
                         if (y == 0)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", 
+                                Game.CurrentMoves);
+
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
 
                         break;
                     case "L":
 
-                        if (labyrinth[x, y - 1] == "-")
+                        if (labyrinth[moveCount, y - 1] == "-")
                         {
-                            labyrinth[x, y] = "-";
-                            labyrinth[x, y - 1] = "*";
+                            labyrinth[moveCount, y] = "-";
+                            labyrinth[moveCount, y - 1] = "*";
                             y--;
-                            currentMoves++;
+                            Game.CurrentMoves++;
                         }
                         else
                         {
@@ -292,18 +306,18 @@ namespace Labyrinth
 
                         if (y == 0)
                         {
-                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", currentMoves);
+                            Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", Game.CurrentMoves);
                             flagTemp = false;
-                            flag4 = true;
+                            isWonWithEscape = true;
                         }
 
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
 
                         break;
                     case "top":
                         UpdateScoreSheet(Scores);
                         Console.WriteLine("\n");
-                        DisplayLabyrinth(labyrinth);
+                        PrintLabyrinth(labyrinth);
                         break;
                     case "restart":
                         flagTemp = false;
