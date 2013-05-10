@@ -10,7 +10,20 @@ namespace Labyrinth
 
         // Added new field for better use of random numberes
         private static readonly Random randomNumber = new Random();
-      
+
+        protected static Position pos = new Position();
+        public static Position Pos
+        {
+            get
+            {
+                return pos;
+            }
+            set
+            {
+                pos = value;
+            }
+        }
+
         public static void AddNewScore(List<Table> scores, int moves)
         {
             if (scores.Count != 0)
@@ -109,7 +122,7 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        PrintLabyrinth(labyrinth);
+                        Print(labyrinth);
                         break;
                     case "u":
                         if (labyrinth[moveCount - 1, y] == "-")
@@ -132,7 +145,7 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        PrintLabyrinth(labyrinth);
+                        Print(labyrinth);
                         break;
                     case "r":
 
@@ -157,7 +170,7 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        PrintLabyrinth(labyrinth);
+                        Print(labyrinth);
                         break;
                     case "l":
 
@@ -182,12 +195,12 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        PrintLabyrinth(labyrinth);
+                        Print(labyrinth);
                         break;                  
                     case "top":
                         UpdateScoreSheet(Scores);
                         Console.WriteLine("\n");
-                        PrintLabyrinth(labyrinth);
+                        Print(labyrinth);
                         break;
                     case "restart":
                         isGameRunning = false;
@@ -203,7 +216,7 @@ namespace Labyrinth
             }
         }
 
-        public static void PrintLabyrinth(string[,] labyrinth)
+        public static void Print(string[,] labyrinth)
         {
             // Removing the magic number 7 and swithing it with the number of columns in the labyrinth
             int columnsInLabyrinth = labyrinth.GetLength(0);
@@ -224,7 +237,7 @@ namespace Labyrinth
             Console.WriteLine(result);
         }
 
-        public static void LabyrinthGenerator(string[,] labyrinth, int x, int y)
+        public static void Generate(string[,] labyrinth, int x, int y)
         {
             // Removed use of the magic number 7 for the number of rows and columns
             int numberOfRows = labyrinth.GetLength(0);
@@ -273,7 +286,7 @@ namespace Labyrinth
                 try
                 {
                     // Extracted Method which checks is the move inside the matrix
-                    IsInsideLabyrint(labyrinth, ref rowIndex, ref columnIndex, ref isAbleToMove);
+                    IsInside(labyrinth, ref rowIndex, ref columnIndex, ref isAbleToMove);
                 }
                 catch (Exception)
                 {
@@ -294,7 +307,7 @@ namespace Labyrinth
             }
         }
 
-        private static void IsInsideLabyrint(string[,] labyrinth, ref int rowIndex,
+        private static void IsInside(string[,] labyrinth, ref int rowIndex,
             ref int columnIndex, ref bool isInsideMatrix)
         {
             if (labyrinth[rowIndex + 1, columnIndex] == "-")

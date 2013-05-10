@@ -12,28 +12,10 @@ namespace Labyrinth
 
         protected static bool isWonWithEscape;
 
-        protected static Position pos = new Position();
-
-       // public static int positionX;
-
-       // public static int positionY;
-
         private static int currentMoves;
 
         public static List<Table> Scores = new List<Table>(4);
-
-        public static Position Pos
-        {
-            get
-            {
-                return pos;
-            }
-            set
-            {
-                pos = value;
-            }
-        }
-
+        
         public static bool IsWonWithEscape
         {
             get
@@ -70,18 +52,6 @@ namespace Labyrinth
             }
         }
 
-        public static Position Position
-        {
-            get
-            {
-                return pos;
-            }
-            set
-            {
-                pos = value;
-            }
-        }
-
         public static int CurrentMoves
         {
             get
@@ -94,6 +64,5 @@ namespace Labyrinth
                 currentMoves = value;
             }
         }
-
     }
 }

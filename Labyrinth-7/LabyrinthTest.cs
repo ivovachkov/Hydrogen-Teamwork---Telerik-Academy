@@ -6,8 +6,8 @@ namespace Labyrinth
     {
         static void Main()
         {
-            Game.Position.X = 3;
-            Game.Position.Y = 3;
+            Labyrinth.Pos.X = 3;
+            Labyrinth.Pos.Y = 3;
             Game.IsRunning = true;
             string[,] labyrinth = new string[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
 
@@ -25,12 +25,12 @@ namespace Labyrinth
 
                 while (!Game.IsFinished)
                 {
-                    Labyrinth.LabyrinthGenerator(labyrinth, Game.Position.X, Game.Position.Y);
-                    Labyrinth.SolutionChecker(labyrinth, Game.Position.X, Game.Position.Y);
+                    Labyrinth.Generate(labyrinth, Labyrinth.Pos.X, Labyrinth.Pos.Y);
+                    Labyrinth.SolutionChecker(labyrinth, Labyrinth.Pos.X, Labyrinth.Pos.Y);
                 }
 
-                Labyrinth.PrintLabyrinth(labyrinth);
-                Labyrinth.Test(labyrinth, Game.IsRunning, Game.Position.X, Game.Position.Y);
+                Labyrinth.Print(labyrinth);
+                Labyrinth.Test(labyrinth, Game.IsRunning, Labyrinth.Pos.X, Labyrinth.Pos.Y);
 
                 //used for adding score only when game is finished naturally and not by the restart command.
                 while (Game.IsWonWithEscape)
