@@ -6,6 +6,16 @@
 
         private int y;
 
+        public Position()
+        {         
+        }
+
+        public Position(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+
         public int Y
         {
             get

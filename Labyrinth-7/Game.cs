@@ -4,31 +4,17 @@ using System.Text;
 
 namespace Labyrinth
 {
-    public class Game
+    public abstract class Game
     {
-        protected static bool isFinished;
+        protected bool isFinished;
 
-        protected static bool isRunning;
+        protected bool isRunning;
+       
+        protected int currentMoves;
 
-        protected static bool isWonWithEscape;
-
-        private static int currentMoves;
-
-        public static List<Table> Scores = new List<Table>(4);
+        public List<Table> Scores = new List<Table>(4);
         
-        public static bool IsWonWithEscape
-        {
-            get
-            {
-                return isWonWithEscape;
-            }
-            set
-            {
-                isWonWithEscape = value;
-            }
-        }
-
-        public static bool IsRunning
+        public bool IsRunning
         {
             get
             {
@@ -40,7 +26,7 @@ namespace Labyrinth
             }
         }
 
-        public static bool IsFinished
+        public bool IsFinished
         {
             get
             {
@@ -52,7 +38,7 @@ namespace Labyrinth
             }
         }
 
-        public static int CurrentMoves
+        public int CurrentMoves
         {
             get
             {

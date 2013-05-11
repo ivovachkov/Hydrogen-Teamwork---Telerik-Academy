@@ -9,10 +9,21 @@ namespace Labyrinth
         public const int LabyrinthSize = 7;
 
         // Added new field for better use of random numberes
-        private static readonly Random randomNumber = new Random();
+        private readonly Random randomNumber = new Random();
+        private bool isWonWithEscape;
+        private Position pos = new Position();
 
-        protected static Position pos = new Position();
-        public static Position Pos
+        public Labyrinth(Position startPosition)
+        {
+            if (startPosition == null)
+            {
+                throw new ArgumentException("The start position cannot be null");
+            }
+
+            this.Pos = startPosition;
+        }
+
+        public Position Pos
         {
             get
             {
@@ -23,8 +34,20 @@ namespace Labyrinth
                 pos = value;
             }
         }
+    
+        public bool IsWonWithEscape
+        {
+            get
+            {
+                return isWonWithEscape;
+            }
+            set
+            {
+                isWonWithEscape = value;
+            }
+        }
 
-        public static void AddNewScore(List<Table> scores, int moves)
+        public void AddNewScore(List<Table> scores, int moves)
         {
             if (scores.Count != 0)
             {
@@ -53,10 +76,10 @@ namespace Labyrinth
                 UpdateScoreSheet(scores);
             }
 
-            Game.IsWonWithEscape = false;
+            IsWonWithEscape = false;
         }
 
-        public static void UpdateScoreSheet(List<Table> scores)
+        public void UpdateScoreSheet(List<Table> scores)
         {
             Console.WriteLine("\n");
             if (scores.Count == 0)
@@ -86,9 +109,9 @@ namespace Labyrinth
             }
         }
 
-        public static void Test(string[,] labyrinth, bool isGameRunning, int moveCount, int y)
+        public void Test(string[,] labyrinth, bool isGameRunning, int moveCount, int y)
         {
-            Game.CurrentMoves = 0;
+            CurrentMoves = 0;
 
             while (isGameRunning)
             {
@@ -105,7 +128,7 @@ namespace Labyrinth
                             labyrinth[moveCount, y] = "-";
                             labyrinth[moveCount + 1, y] = "*";
                             moveCount++;
-                            Game.CurrentMoves++;
+                            CurrentMoves++;
                         }
                         else
                         {
@@ -115,10 +138,10 @@ namespace Labyrinth
                         if (moveCount == 6)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                Game.CurrentMoves);
+                                CurrentMoves);
 
                             isGameRunning = false;
-                            Console.WriteLine( Game.IsRunning);
+                            Console.WriteLine( IsRunning);
                             IsWonWithEscape = true;
                         }
 
@@ -130,7 +153,7 @@ namespace Labyrinth
                             labyrinth[moveCount, y] = "-";
                             labyrinth[moveCount - 1, y] = "*";
                             moveCount--;
-                            Game.CurrentMoves++;
+                            CurrentMoves++;
                         }
                         else
                         {
@@ -140,7 +163,7 @@ namespace Labyrinth
                         if (moveCount == 0)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", 
-                                Game.CurrentMoves);
+                                CurrentMoves);
                             isGameRunning = false;
                             IsWonWithEscape = true;
                         }
@@ -154,7 +177,7 @@ namespace Labyrinth
                             labyrinth[moveCount, y] = "-";
                             labyrinth[moveCount, y + 1] = "*";
                             y++;
-                            Game.CurrentMoves++;
+                            CurrentMoves++;
                         }
                         else
                         {
@@ -164,7 +187,7 @@ namespace Labyrinth
                         if (y == 6)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                Game.CurrentMoves);
+                                CurrentMoves);
 
                             isGameRunning = false;
                             IsWonWithEscape = true;
@@ -179,7 +202,7 @@ namespace Labyrinth
                             labyrinth[moveCount, y] = "-";
                             labyrinth[moveCount, y - 1] = "*";
                             y--;
-                            Game.CurrentMoves++;
+                            CurrentMoves++;
                         }
                         else
                         {
@@ -189,7 +212,7 @@ namespace Labyrinth
                         if (y == 0)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", 
-                                Game.CurrentMoves);
+                                CurrentMoves);
 
                             isGameRunning = false;
                             IsWonWithEscape = true;
@@ -216,7 +239,7 @@ namespace Labyrinth
             }
         }
 
-        public static void Print(string[,] labyrinth)
+        public void Print(string[,] labyrinth)
         {
             // Removing the magic number 7 and swithing it with the number of columns in the labyrinth
             int columnsInLabyrinth = labyrinth.GetLength(0);
@@ -237,7 +260,7 @@ namespace Labyrinth
             Console.WriteLine(result);
         }
 
-        public static void Generate(string[,] labyrinth, int x, int y)
+        public void Generate(string[,] labyrinth, int x, int y)
         {
             // Removed use of the magic number 7 for the number of rows and columns
             int numberOfRows = labyrinth.GetLength(0);
@@ -263,7 +286,7 @@ namespace Labyrinth
         }
 
         //The is a posible that at the beginning we are stuck and we can't move.
-        public static bool IsBlocked(string[,] labyrinth, int rowIndex, int columnIndex)
+        public bool IsBlocked(string[,] labyrinth, int rowIndex, int columnIndex)
         {
             bool isTopBlocked = labyrinth[rowIndex - 1, columnIndex] == "x";
             bool isBottomBlocked = labyrinth[rowIndex + 1, columnIndex] == "x";
@@ -274,7 +297,7 @@ namespace Labyrinth
             return isAbleToMove;
         }
 
-        public static void SolutionChecker(string[,] labyrinth, int rowIndex, int columnIndex)
+        public void SolutionChecker(string[,] labyrinth, int rowIndex, int columnIndex)
         {
             // Added another variable so we don't need to use 1 variable for 2 things 
             // Exctacted method for checking to see if we can move

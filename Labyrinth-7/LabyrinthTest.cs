@@ -6,10 +6,11 @@ namespace Labyrinth
     {
         static void Main()
         {
-            Labyrinth.Pos.X = 3;
-            Labyrinth.Pos.Y = 3;
-            Game.IsRunning = true;
-            string[,] labyrinth = new string[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
+            Position startPosition = new Position(3, 3);
+            Labyrinth labyrinth = new Labyrinth(startPosition);
+
+            labyrinth.IsRunning = true;
+            string[,] labyrinthBoard = new string[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
 
             // The game is running till we stop it with exit command. There we are using Environment.Exit(0);
             // TODO make stoping better
@@ -20,22 +21,24 @@ namespace Labyrinth
                     "Use 'top' to view the top \nscoreboard,'restart' to start " +
                      "a new game and 'exit' to quit the game.\n ");
 
-                Game.IsFinished = false;
-                Game.IsWonWithEscape = false;
+                labyrinth.IsFinished = false;
+                labyrinth.IsWonWithEscape = false;
 
-                while (!Game.IsFinished)
+
+                // removed while cicle
+                while (!labyrinth.IsFinished)
                 {
-                    Labyrinth.Generate(labyrinth, Labyrinth.Pos.X, Labyrinth.Pos.Y);
-                    Labyrinth.SolutionChecker(labyrinth, Labyrinth.Pos.X, Labyrinth.Pos.Y);
+                    labyrinth.Generate(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+                    labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
                 }
 
-                Labyrinth.Print(labyrinth);
-                Labyrinth.Test(labyrinth, Game.IsRunning, Labyrinth.Pos.X, Labyrinth.Pos.Y);
+                labyrinth.Print(labyrinthBoard);
+                labyrinth.Test(labyrinthBoard, labyrinth.IsRunning,labyrinth.Pos.X, labyrinth.Pos.Y);
 
                 //used for adding score only when game is finished naturally and not by the restart command.
-                while (Game.IsWonWithEscape)
+                while (labyrinth.IsWonWithEscape)
                 {
-                    Labyrinth.AddNewScore(Game.Scores, Game.CurrentMoves);
+                    labyrinth.AddNewScore(labyrinth.Scores, labyrinth.CurrentMoves);
                 }
             }
         }
