@@ -24,7 +24,6 @@ namespace Labyrinth
                 labyrinth.IsFinished = false;
                 labyrinth.IsWonWithEscape = false;
 
-
                 // removed while cicle
                 while (!labyrinth.IsFinished)
                 {
