@@ -68,6 +68,7 @@ namespace Labyrinth
                     UpdateScoreSheet(scores);
                 }
             }
+
             if (scores.Count < 5)
             {
                 Console.WriteLine("Please enter your nickname");
@@ -76,7 +77,7 @@ namespace Labyrinth
                 UpdateScoreSheet(scores);
             }
 
-            IsWonWithEscape = false;
+            this.IsWonWithEscape = false;
         }
 
         public void UpdateScoreSheet(List<Table> scores)
@@ -95,8 +96,8 @@ namespace Labyrinth
                         return firstScore.Moves.CompareTo(secondScore.Moves);
                     }
                 );
-                Console.WriteLine("Top 5: \n");
 
+                Console.WriteLine("Top 5: \n");
                 scores.ForEach(
                     delegate(Table score)
                     {
@@ -109,25 +110,24 @@ namespace Labyrinth
             }
         }
 
-        public void Test(string[,] labyrinth, bool isGameRunning, int moveCount, int y)
+        public void Run(string[,] labyrinth, bool isGameRunning, int x, int y)
         {
             CurrentMoves = 0;
 
             while (isGameRunning)
             {
                 Console.Write("\nEnter your move (L=left, R=right, D=down, U=up): ");
-                string moveDirrection = string.Empty;
-                moveDirrection = Console.ReadLine();
+                string moveDirrection = Console.ReadLine();
 
                 // Removed the need to check for uppercase or lowercase
                 switch (moveDirrection.ToLower())
                 {
                     case "d":
-                        if (labyrinth[moveCount + 1, y] == "-")
+                        if (labyrinth[x + 1, y] == "-")
                         {
-                            labyrinth[moveCount, y] = "-";
-                            labyrinth[moveCount + 1, y] = "*";
-                            moveCount++;
+                            labyrinth[x, y] = "-";
+                            labyrinth[x + 1, y] = "*";
+                            x++;
                             CurrentMoves++;
                         }
                         else
@@ -135,24 +135,24 @@ namespace Labyrinth
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (moveCount == 6)
+                        if (x == 6)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
                                 CurrentMoves);
 
                             isGameRunning = false;
-                            Console.WriteLine( IsRunning);
+                            Console.WriteLine(IsRunning);
                             IsWonWithEscape = true;
                         }
 
-                        Print(labyrinth);
+                        Console.WriteLine(Print(labyrinth));
                         break;
                     case "u":
-                        if (labyrinth[moveCount - 1, y] == "-")
+                        if (labyrinth[x - 1, y] == "-")
                         {
-                            labyrinth[moveCount, y] = "-";
-                            labyrinth[moveCount - 1, y] = "*";
-                            moveCount--;
+                            labyrinth[x, y] = "-";
+                            labyrinth[x - 1, y] = "*";
+                            x--;
                             CurrentMoves++;
                         }
                         else
@@ -160,7 +160,7 @@ namespace Labyrinth
                             Console.WriteLine("\nInvalid move! \n ");
                         }
 
-                        if (moveCount == 0)
+                        if (x == 0)
                         {
                             Console.WriteLine("\nCongratulations you escaped with {0} moves.\n", 
                                 CurrentMoves);
@@ -168,14 +168,13 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        Print(labyrinth);
+                        Console.WriteLine(Print(labyrinth));
                         break;
                     case "r":
-
-                        if (labyrinth[moveCount, y + 1] == "-")
+                        if (labyrinth[x, y + 1] == "-")
                         {
-                            labyrinth[moveCount, y] = "-";
-                            labyrinth[moveCount, y + 1] = "*";
+                            labyrinth[x, y] = "-";
+                            labyrinth[x, y + 1] = "*";
                             y++;
                             CurrentMoves++;
                         }
@@ -193,14 +192,13 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        Print(labyrinth);
+                        Console.WriteLine(Print(labyrinth));
                         break;
                     case "l":
-
-                        if (labyrinth[moveCount, y - 1] == "-")
+                        if (labyrinth[x, y - 1] == "-")
                         {
-                            labyrinth[moveCount, y] = "-";
-                            labyrinth[moveCount, y - 1] = "*";
+                            labyrinth[x, y] = "-";
+                            labyrinth[x, y - 1] = "*";
                             y--;
                             CurrentMoves++;
                         }
@@ -218,12 +216,12 @@ namespace Labyrinth
                             IsWonWithEscape = true;
                         }
 
-                        Print(labyrinth);
+                        Console.WriteLine(Print(labyrinth));
                         break;                  
                     case "top":
                         UpdateScoreSheet(Scores);
                         Console.WriteLine("\n");
-                        Print(labyrinth);
+                        Console.WriteLine(Print(labyrinth));
                         break;
                     case "restart":
                         isGameRunning = false;
@@ -239,7 +237,7 @@ namespace Labyrinth
             }
         }
 
-        public void Print(string[,] labyrinth)
+        public string Print(string[,] labyrinth)
         {
             // Removing the magic number 7 and swithing it with the number of columns in the labyrinth
             int columnsInLabyrinth = labyrinth.GetLength(0);
@@ -257,7 +255,7 @@ namespace Labyrinth
                 result.Append("\n");
             }
 
-            Console.WriteLine(result);
+            return result.ToString();
         }
 
         public void Generate(string[,] labyrinth, int x, int y)
@@ -311,8 +309,9 @@ namespace Labyrinth
                     // Extracted Method which checks is the move inside the matrix
                     IsInside(labyrinth, ref rowIndex, ref columnIndex, ref isAbleToMove);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.GetType());
                     for (int row = 0; row < 7; row++)
                     {
                         for (int column = 0; column < 7; column++)
@@ -331,8 +330,9 @@ namespace Labyrinth
         }
 
         private static void IsInside(string[,] labyrinth, ref int rowIndex,
-            ref int columnIndex, ref bool isInsideMatrix)
+            ref int columnIndex, ref bool isAbleToMove)
         {
+            
             if (labyrinth[rowIndex + 1, columnIndex] == "-")
             {
                 labyrinth[rowIndex + 1, columnIndex] = "0";
@@ -355,7 +355,7 @@ namespace Labyrinth
             }
             else
             {
-                isInsideMatrix = false;
+                isAbleToMove = false;
             }
         }
     }

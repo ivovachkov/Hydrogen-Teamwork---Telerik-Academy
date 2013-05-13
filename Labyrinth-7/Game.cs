@@ -26,7 +26,7 @@ namespace Labyrinth
             }
         }
 
-        public bool IsFinished
+        public bool IsGenerationDone
         {
             get
             {
