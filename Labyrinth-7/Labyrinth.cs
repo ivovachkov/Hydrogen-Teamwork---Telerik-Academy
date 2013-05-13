@@ -170,7 +170,6 @@ namespace Labyrinth
 
             for (int columnIndex = 0; columnIndex < columnsInLabyrinth; columnIndex++)
             {
-
                 for (int index = 0; index < columnsInLabyrinth; index++)
                 {
                     result.Append(labyrinth[columnIndex, index]).Append(" ");
@@ -183,7 +182,8 @@ namespace Labyrinth
             return result.ToString();
         }
 
-        public void Generate(string[,] labyrinth, int x, int y)
+        // changed return type for easy testing
+        public string[,] Generate(string[,] labyrinth, int x, int y)
         {
             // Removed use of the magic number 7 for the number of rows and columns
             int numberOfRows = labyrinth.GetLength(0);
@@ -206,6 +206,8 @@ namespace Labyrinth
             }
 
             labyrinth[pos.X, pos.Y] = "*";
+
+            return labyrinth;
         }
 
         //The is a posible that at the beginning we are stuck and we can't move.
@@ -229,27 +231,28 @@ namespace Labyrinth
             bool isAbleToMove = true;
             while (isAbleToMove && !isBlocked)
             {
-                try
+                // Removed try-catch block
+                //try
                 {
-                    // Extracted Method which checks is the move inside the matrix
+                     // Extracted Method which checks is the move inside the matrix
                     IsInside(labyrinth, ref rowIndex, ref columnIndex, ref isAbleToMove);
                 }
-                catch (Exception ex)
+                //catch (Exception ex)
                 {
-                    Console.WriteLine(ex.GetType());
-                    for (int row = 0; row < 7; row++)
+                    //Console.WriteLine(ex.GetType());
+                    for (int row = 0; row < labyrinth.GetLength(0); row++)
                     {
-                        for (int column = 0; column < 7; column++)
+                        for (int column = 0; column < labyrinth.GetLength(1); column++)
                         {
                             if (labyrinth[row, column] == "0")
                             {
                                 labyrinth[row, column] = "-";
                             }
                         }
-
-                        isAbleToMove = false;
-                        isFinished = true;
                     }
+                    // Moved both outside, no need to be inside the loop
+                    isAbleToMove = false;
+                    isFinished = true;
                 }
             }
         }
@@ -257,7 +260,6 @@ namespace Labyrinth
         private static void IsInside(string[,] labyrinth, ref int rowIndex,
             ref int columnIndex, ref bool isAbleToMove)
         {
-            
             if (labyrinth[rowIndex + 1, columnIndex] == "-")
             {
                 labyrinth[rowIndex + 1, columnIndex] = "0";
