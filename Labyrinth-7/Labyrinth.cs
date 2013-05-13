@@ -17,7 +17,7 @@ namespace Labyrinth
         {
             if (startPosition == null)
             {
-                throw new ArgumentException("The start position cannot be null");
+                throw new ArgumentNullException("The start position cannot be null");
             }
 
             this.Pos = startPosition;

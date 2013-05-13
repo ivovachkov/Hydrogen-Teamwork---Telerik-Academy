@@ -38,7 +38,7 @@ namespace Labyrinth
             Console.WriteLine("\n");
             if (scores.Count == 0)
             {
-                Console.WriteLine("The scoreboard is empty! ");
+				Console.WriteLine("The scoreboard is empty!");
             }
             else
             {
