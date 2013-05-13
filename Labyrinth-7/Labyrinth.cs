@@ -25,81 +25,14 @@ namespace Labyrinth
 
         public Position Pos
         {
-            get
-            {
-                return pos;
-            }
-            set
-            {
-                pos = value;
-            }
+            get { return pos; }
+            set { pos = value; }
         }
     
         public bool IsWonWithEscape
         {
-            get
-            {
-                return isWonWithEscape;
-            }
-            set
-            {
-                isWonWithEscape = value;
-            }
-        }
-
-        public void AddNewScore(List<Score> scores, int moves)
-        {
-            if (scores.Count != 0)
-            {
-                scores.Sort();
-            }
-
-            if (scores.Count == 5)
-            {
-                if (scores[4].Moves > moves)
-                {
-                    scores.Remove(scores[4]);
-                    Console.WriteLine("Please enter your nickname");
-                    string name = Console.ReadLine();
-                    scores.Add(new Score(moves, name));
-                    UpdateScoreSheet(scores);
-                }
-            }
-
-            if (scores.Count < 5)
-            {
-                Console.WriteLine("Please enter your nickname");
-                string name = Console.ReadLine();
-                scores.Add(new Score(moves, name));
-                UpdateScoreSheet(scores);
-            }
-
-            this.IsWonWithEscape = false;
-        }
-
-        public void UpdateScoreSheet(List<Score> scores)
-        {
-            Console.WriteLine("\n");
-            if (scores.Count == 0)
-            {
-                Console.WriteLine("The scoreboard is empty! ");
-            }
-            else
-            {
-                int rankPosition = 1;
-                scores.Sort();
-
-                Console.WriteLine("Top 5: \n");
-                scores.ForEach(
-                    delegate(Score score)
-                    {
-                        Console.WriteLine(String.Format(rankPosition + ". {1} ---> {0} moves", score.Moves, score.Name));
-                        rankPosition++;
-                    }
-                );
-
-                Console.WriteLine("\n");
-            }
+            get { return isWonWithEscape; }
+            set { isWonWithEscape = value; }
         }
 
         public void Run(string[,] labyrinth, bool isGameRunning, int x, int y)
@@ -211,7 +144,7 @@ namespace Labyrinth
                         Console.WriteLine(Print(labyrinth));
                         break;                  
                     case "top":
-                        UpdateScoreSheet(Scores);
+                        ScoreBoard.Display();
                         Console.WriteLine("\n");
                         Console.WriteLine(Print(labyrinth));
                         break;

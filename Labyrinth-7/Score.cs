@@ -9,31 +9,14 @@ namespace Labyrinth
 
         public int Moves
         {
-            get
-            {
-                return this.moves;
-            }
-            set
-            {
-                this.moves = value;
-            }
+            get { return this.moves; }
+            set { this.moves = value; }
         }
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("Player's name cannot be null.");
-                }
-
-                this.name = value;
-            }
+            get { return this.name; }
+            set { this.name = value; }
         }
 
         public Score(int moves, string name)

@@ -11,44 +11,23 @@ namespace Labyrinth
         protected bool isRunning;
        
         protected int currentMoves;
-
-        public List<Score> Scores = new List<Score>(4);
         
         public bool IsRunning
         {
-            get
-            {
-                return isRunning;
-            }
-            set
-            {
-                isRunning = value;
-            }
+            get { return isRunning; }
+            set { isRunning = value; }
         }
 
         public bool IsGenerationDone
         {
-            get
-            {
-                return isFinished;
-            }
-            set
-            {
-                isFinished = value;
-            }
+            get { return isFinished; }
+            set { isFinished = value; }
         }
 
         public int CurrentMoves
         {
-            get
-            {
-                return currentMoves;
-            }
-
-            protected set
-            {
-                currentMoves = value;
-            }
+            get { return currentMoves; }
+            protected set { currentMoves = value; }
         }
     }
 }

@@ -36,7 +36,9 @@ namespace Labyrinth
                 //used for adding score only when game is finished naturally and not by the restart command.
                 if (labyrinth.IsWonWithEscape)
                 {
-                    labyrinth.AddNewScore(labyrinth.Scores, labyrinth.CurrentMoves);
+                    Console.Write("Please enter your name: ");
+                    string name = Console.ReadLine();
+                    ScoreBoard.AddNewScore(labyrinth.CurrentMoves, name);
                 }
             }
         }
