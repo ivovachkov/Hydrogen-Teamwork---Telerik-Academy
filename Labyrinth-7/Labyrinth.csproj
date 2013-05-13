@@ -45,9 +45,10 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="Labyrinth.cs" />
-    <Compile Include="LabyrinthTest.cs" />
+    <Compile Include="LabyrinthDemo.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="Table.cs" />
+    <Compile Include="Score.cs" />
+    <Compile Include="ScoreBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -12,7 +12,7 @@ namespace Labyrinth
        
         protected int currentMoves;
 
-        public List<Table> Scores = new List<Table>(4);
+        public List<Score> Scores = new List<Score>(4);
         
         public bool IsRunning
         {

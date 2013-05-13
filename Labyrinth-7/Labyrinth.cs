@@ -47,14 +47,11 @@ namespace Labyrinth
             }
         }
 
-        public void AddNewScore(List<Table> scores, int moves)
+        public void AddNewScore(List<Score> scores, int moves)
         {
             if (scores.Count != 0)
             {
-                scores.Sort(delegate(Table firstScore, Table secondScore)
-                {
-                    return firstScore.Moves.CompareTo(secondScore.Moves);
-                });
+                scores.Sort();
             }
 
             if (scores.Count == 5)
@@ -64,7 +61,7 @@ namespace Labyrinth
                     scores.Remove(scores[4]);
                     Console.WriteLine("Please enter your nickname");
                     string name = Console.ReadLine();
-                    scores.Add(new Table(moves, name));
+                    scores.Add(new Score(moves, name));
                     UpdateScoreSheet(scores);
                 }
             }
@@ -73,14 +70,14 @@ namespace Labyrinth
             {
                 Console.WriteLine("Please enter your nickname");
                 string name = Console.ReadLine();
-                scores.Add(new Table(moves, name));
+                scores.Add(new Score(moves, name));
                 UpdateScoreSheet(scores);
             }
 
             this.IsWonWithEscape = false;
         }
 
-        public void UpdateScoreSheet(List<Table> scores)
+        public void UpdateScoreSheet(List<Score> scores)
         {
             Console.WriteLine("\n");
             if (scores.Count == 0)
@@ -90,16 +87,11 @@ namespace Labyrinth
             else
             {
                 int rankPosition = 1;
-                scores.Sort(
-                    delegate(Table firstScore, Table secondScore)
-                    {
-                        return firstScore.Moves.CompareTo(secondScore.Moves);
-                    }
-                );
+                scores.Sort();
 
                 Console.WriteLine("Top 5: \n");
                 scores.ForEach(
-                    delegate(Table score)
+                    delegate(Score score)
                     {
                         Console.WriteLine(String.Format(rankPosition + ". {1} ---> {0} moves", score.Moves, score.Name));
                         rankPosition++;
