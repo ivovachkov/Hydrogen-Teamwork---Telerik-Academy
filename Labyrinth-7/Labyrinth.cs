@@ -12,6 +12,7 @@ namespace Labyrinth
         private readonly Random randomNumber = new Random();
         private bool isWonWithEscape;
         private Position pos = new Position();
+        private ScoreBoard scoreBoard = new ScoreBoard();
 
         public Labyrinth(Position startPosition)
         {
@@ -23,16 +24,22 @@ namespace Labyrinth
             this.Pos = startPosition;
         }
 
+        public bool IsWonWithEscape
+        {
+            get { return isWonWithEscape; }
+            set { isWonWithEscape = value; }
+        }
+
         public Position Pos
         {
             get { return pos; }
             set { pos = value; }
         }
-    
-        public bool IsWonWithEscape
+
+        public ScoreBoard ScoreBoard
         {
-            get { return isWonWithEscape; }
-            set { isWonWithEscape = value; }
+            get { return this.scoreBoard; }
+            set { this.scoreBoard = value; }
         }
 
         public void Run(string[,] labyrinth, bool isGameRunning, int x, int y)
@@ -154,7 +161,7 @@ namespace Labyrinth
                         }
                     case "top":
                         {
-                            ScoreBoard.Display();
+                            Console.WriteLine(this.ScoreBoard);
                             Console.WriteLine(Print(labyrinth));
                             break;
                         }
@@ -209,8 +216,8 @@ namespace Labyrinth
             {
                 for (int column = 0; column < numberOfColumns; column++)
                 {
-                    labyrinth[row, column] = Convert.ToString(randomNumber.Next(2));
-                    if (labyrinth[row, column] == "0")
+                    int randomValue = randomNumber.Next(2);
+                    if (randomValue == 0)
                     {
                         labyrinth[row, column] = "-";
                     }

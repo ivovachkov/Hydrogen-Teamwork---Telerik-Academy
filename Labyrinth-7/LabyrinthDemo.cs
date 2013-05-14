@@ -38,7 +38,7 @@ namespace Labyrinth
                 {
                     Console.Write("Please enter your name: ");
                     string name = Console.ReadLine();
-                    ScoreBoard.AddNewScore(labyrinth.CurrentMoves, name);
+                    labyrinth.ScoreBoard.AddNewScore(labyrinth.CurrentMoves, name);
                 }
             }
         }
