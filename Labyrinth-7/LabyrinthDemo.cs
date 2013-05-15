@@ -9,7 +9,7 @@ namespace Labyrinth
         {
             Position startPosition = new Position(3, 3);
             Labyrinth labyrinth = new Labyrinth(startPosition);
-            string[,] labyrinthBoard = new string[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
+            Cell[,] labyrinthBoard = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
             labyrinth.IsRunning = true;
             
             // The game is running till we stop it with exit command. There we are using Environment.Exit(0);
@@ -22,12 +22,17 @@ namespace Labyrinth
 
                 labyrinth.IsGenerationDone = false;
                 labyrinth.IsWonWithEscape = false;
-                
-                
+                    
                 while (!labyrinth.IsGenerationDone)
                 {
                     labyrinth.Generate(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
-                    labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+                    //labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+
+                    if (labyrinth.ExitPathAvailable(labyrinthBoard))
+                    {
+                        break;
+                    }
+
                 }
 
                 Console.WriteLine(labyrinth.Print(labyrinthBoard));

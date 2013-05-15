@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Labyrinth.cs" />
     <Compile Include="LabyrinthDemo.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="ScoreBoard.cs" />
