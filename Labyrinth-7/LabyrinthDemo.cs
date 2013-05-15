@@ -2,7 +2,6 @@
 
 namespace Labyrinth
 {
-    // changed class name
     public class LabyrinthDemo
     {
         static void Main()
