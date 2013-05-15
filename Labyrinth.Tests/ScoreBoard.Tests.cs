@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Labyrinth.Tests
@@ -10,14 +9,14 @@ namespace Labyrinth.Tests
         [TestMethod]
         public void AddNewScoreTest()
         {
-            List<Score> scores = new List<Score>() 
-            { 
-                new Score(4, "Pesho"),
-                new Score(7, "Gosho"),
-                new Score(5, "Dragan")
-            };
+            ScoreBoard scoreBoard = new ScoreBoard();
+            scoreBoard.AddNewScore(4, "Pesho");
+            scoreBoard.AddNewScore(7, "Gosho");
+            scoreBoard.AddNewScore(5, "Dragan");
+            string actual = scoreBoard.ToString();
+            string expected = "\nTop 5:\n\n1. Pesho ---> 4 moves\n2. Dragan ---> 5 moves\n3. Gosho ---> 7 moves\n\n\n";
 
-            
+            Assert.AreEqual(expected, actual);
         }
     }
 }

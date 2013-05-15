@@ -25,7 +25,6 @@ namespace Labyrinth
             this.Name = name;
         }
 
-        // implemented compareto for easier sorting
         public int CompareTo(Score other)
         {
             return this.Moves.CompareTo(other.Moves);

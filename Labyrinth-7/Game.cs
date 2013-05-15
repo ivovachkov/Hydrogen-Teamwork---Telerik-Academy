@@ -6,10 +6,8 @@ namespace Labyrinth
 {
     public abstract class Game
     {
-        protected bool isFinished;
-
         protected bool isRunning;
-       
+        protected bool isFinished;       
         protected int currentMoves;
         
         public bool IsRunning
