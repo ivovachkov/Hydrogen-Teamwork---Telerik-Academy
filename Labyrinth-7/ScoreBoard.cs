@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Labyrinth
@@ -9,6 +8,21 @@ namespace Labyrinth
     {
         private const int Capacity = 5;
         private List<Score> scores;
+
+        public List<Score> Scores
+        {
+            get 
+            {
+                List<Score> clonedScores = new List<Score>(Capacity);
+
+                foreach (var item in this.scores)
+                {
+                    clonedScores.Add(item);
+                }
+
+                return clonedScores;
+            }
+        }
 
         public ScoreBoard()
         {
@@ -29,21 +43,7 @@ namespace Labyrinth
                     this.scores.Add(new Score(moves, name));
                 }
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             this.scores.Sort();
-=======
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-
-            scores.Sort();
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
             Console.WriteLine(this);
         }
 
@@ -54,7 +54,7 @@ namespace Labyrinth
 
             if (this.scores.Count == 0)
             {
-                result.AppendLine("The scoreboard is empty!");
+                result.AppendLine(Message.ScoreboardEmpty);
             }
             else
             {

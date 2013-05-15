@@ -198,13 +198,13 @@ namespace Labyrinth
                         }
                     case "exit":
                         {
-                            Console.WriteLine("Good bye!");
+                            Console.WriteLine(Message.GoodBye);
                             Environment.Exit(0);
                             break;
                         }
                     default:
                         {
-                            Console.WriteLine("Invalid command!");
+                            Console.WriteLine(Message.InvalidCommand);
                             break;
                         }
                 }

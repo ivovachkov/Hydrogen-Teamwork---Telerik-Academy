@@ -3,20 +3,6 @@ namespace Labyrinth
 {
     public abstract class Game
     {
-<<<<<<< HEAD
-=======
-        protected bool isFinished;
-        
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
-=======
->>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
         protected bool isRunning;
         protected bool isFinished;       
         protected int currentMoves;
