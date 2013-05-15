@@ -30,8 +30,11 @@ namespace Labyrinth
                 }
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.scores.Sort();
 =======
+=======
+>>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
 
             scores.Sort();
 >>>>>>> f3ed1eaa00561d4a34de5f31485b687206d5aca7
