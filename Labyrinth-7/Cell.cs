@@ -4,19 +4,12 @@ namespace Labyrinth
 {
     public class Cell : ICloneable
     {
-        public static char Empty = '-';
+        public const char Empty = '-';
+        public const char Block = 'x';
+        public const char Player = '*';
 
-        public static char Block = 'x';
-
-        public static char Player = '*';
-<<<<<<< HEAD
-=======
-
->>>>>>> 11d3e3465cdf1ca408b205f69d71e7ca6afd8d2e
-        private int row;
-        
+        private int row;        
         private int column;
-
         private char value;
 
         public Cell(int row, int column, char value)

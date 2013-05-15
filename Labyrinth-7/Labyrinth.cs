@@ -11,19 +11,19 @@ namespace Labyrinth
         // Added new field for better use of random numberes
         private readonly Random randomNumber = new Random();
         private bool isWonWithEscape;
-        private Position pos = new Position();
+        private PlayerPosition position = new PlayerPosition();
         private ScoreBoard scoreBoard = new ScoreBoard();
 
         private Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
 
-        public Labyrinth(Position startPosition)
+        public Labyrinth(PlayerPosition startPosition)
         {
             if (startPosition == null)
             {
                 throw new ArgumentNullException("The start position cannot be null");
             }
 
-            this.Pos = startPosition;
+            this.Position = startPosition;
         }
 
         #region Properties
@@ -40,15 +40,15 @@ namespace Labyrinth
             }
         }
 
-        public Position Pos
+        public PlayerPosition Position
         {
             get
             {
-                return pos;
+                return position;
             }
             set
             {
-                pos = value;
+                position = value;
             }
         }
 
@@ -68,17 +68,55 @@ namespace Labyrinth
 
         #region Methods
 
+        public void StartGame()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+            Labyrinth labyrinth = new Labyrinth(startPosition);
+            Cell[,] labyrinthBoard = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
+            labyrinth.IsRunning = true;
+
+            Console.WriteLine(Message.Welcome);
+
+            while (true)
+            {
+                labyrinth.IsGenerationDone = false;
+                labyrinth.IsWonWithEscape = false;
+
+                while (!labyrinth.IsGenerationDone)
+                {
+                    labyrinth.Generate(labyrinthBoard, labyrinth.Position.X, labyrinth.Position.Y);
+                    //labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+
+                    if (labyrinth.ExitPathAvailable(labyrinthBoard))
+                    {
+                        break;
+                    }
+                }
+
+                Console.WriteLine(labyrinth.Print(labyrinthBoard));
+                labyrinth.Run(labyrinthBoard, labyrinth.IsRunning, labyrinth.Position.X, labyrinth.Position.Y);
+
+                //used for adding score only when game is finished naturally and not by the restart command.
+                if (labyrinth.IsWonWithEscape)
+                {
+                    Console.Write("Please enter your name: ");
+                    string name = Console.ReadLine();
+                    labyrinth.ScoreBoard.AddNewScore(labyrinth.CurrentMoves, name);
+                }
+            }
+        }
+
         public void Run(Cell[,] labyrinth, bool isGameRunning, int x, int y)
         {
             CurrentMoves = 0;
 
             while (isGameRunning)
             {
-                Console.Write("\nEnter your move (L=left, R=right, D=down, U=up): ");
-                string moveDirrection = Console.ReadLine();
+                Console.Write(Message.ValidCommands);
+                string moveDirection = Console.ReadLine();
 
                 // Removed the need to check for uppercase or lowercase
-                switch (moveDirrection.ToLower())
+                switch (moveDirection.ToLower())
                 {
                     case "d":
                         {
@@ -91,14 +129,13 @@ namespace Labyrinth
                             }
                             else
                             {
-                                Console.WriteLine("\nInvalid move! \n ");
+                                Console.WriteLine(Message.InvalidMove);
                             }
 
                             // changed the magic number 6 -> LabyrinthSize - 1
                             if (x == LabyrinthSize - 1)
                             {
-                                Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                    CurrentMoves);
+                                Console.WriteLine(Message.Congratulations, CurrentMoves);
 
                                 isGameRunning = false;
                                 IsWonWithEscape = true;
@@ -118,13 +155,12 @@ namespace Labyrinth
                             }
                             else
                             {
-                                Console.WriteLine("\nInvalid move! \n ");
+                                Console.WriteLine(Message.InvalidMove);
                             }
 
                             if (x == 0)
                             {
-                                Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                    CurrentMoves);
+                                Console.WriteLine(Message.Congratulations, CurrentMoves);
                                 isGameRunning = false;
                                 IsWonWithEscape = true;
                             }
@@ -143,14 +179,13 @@ namespace Labyrinth
                             }
                             else
                             {
-                                Console.WriteLine("\nInvalid move! \n ");
+                                Console.WriteLine(Message.InvalidMove);
                             }
 
                             // changed the magic number 6 -> LabyrinthSize - 1
                             if (y == LabyrinthSize - 1)
                             {
-                                Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                    CurrentMoves);
+                                Console.WriteLine(Message.Congratulations, CurrentMoves);
 
                                 isGameRunning = false;
                                 IsWonWithEscape = true;
@@ -170,13 +205,12 @@ namespace Labyrinth
                             }
                             else
                             {
-                                Console.WriteLine("\nInvalid move! \n ");
+                                Console.WriteLine(Message.InvalidMove);
                             }
 
                             if (y == 0)
                             {
-                                Console.WriteLine("\nCongratulations you escaped with {0} moves.\n",
-                                    CurrentMoves);
+                                Console.WriteLine(Message.Congratulations, CurrentMoves);
 
                                 isGameRunning = false;
                                 IsWonWithEscape = true;
@@ -254,7 +288,7 @@ namespace Labyrinth
                 }
             }
 
-            labyrinth[pos.X, pos.Y].Value = '*';
+            labyrinth[position.X, position.Y].Value = '*';
 
             return labyrinth;
         }
@@ -328,14 +362,15 @@ namespace Labyrinth
 
         public bool ExitPathAvailable(Cell[,] labyrinth)
         {
-            if (this.pos == null)
+            if (this.position == null)
             {
                 throw new ArgumentException("The value of the start cell cannot be null"); 
             }
 
             Queue<Cell> visitedCells = new Queue<Cell>();
             Cell[,] clonedLabyrinth = this.Clone(labyrinth);
-            this.VisitCell(clonedLabyrinth, visitedCells, this.Pos.X, this.Pos.Y);
+
+            this.VisitCell(clonedLabyrinth, visitedCells, this.Position.X, this.Position.Y);
 
             while (visitedCells.Count > 0)
             {

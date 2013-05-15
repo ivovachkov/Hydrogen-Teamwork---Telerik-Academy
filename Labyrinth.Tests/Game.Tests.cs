@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Labyrinth.Tests
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     [TestClass]
     public class GameTests
     {
@@ -15,6 +16,8 @@ namespace Labyrinth.Tests
     }
 }
 =======
+=======
+>>>>>>> 33238209cfb6d08e5c21c42ac3d252f30151142b
     [TestClass()]
     public class GameTest
     {
@@ -22,7 +25,11 @@ namespace Labyrinth.Tests
         public void TryMove()
         {
             
+<<<<<<< HEAD
             Position startPosition = new Position(3, 3);
+=======
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+>>>>>>> 33238209cfb6d08e5c21c42ac3d252f30151142b
             Labyrinth labyrinth = new Labyrinth(startPosition);
             Cell[,] labyrinthBoard = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
             labyrinth.IsRunning = true;

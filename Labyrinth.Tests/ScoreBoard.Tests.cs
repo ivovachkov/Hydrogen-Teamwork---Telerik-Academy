@@ -38,11 +38,7 @@ namespace Labyrinth.Tests
 
             Assert.AreEqual(new Score(4, "Pesho"), new Score(4, "Pesho"));
 
-<<<<<<< HEAD
             //CollectionAssert.AreEqual(expected, actual);
-=======
-            Assert.AreEqual(3, scores.Count);           
->>>>>>> 11d3e3465cdf1ca408b205f69d71e7ca6afd8d2e
         }
     }
 }

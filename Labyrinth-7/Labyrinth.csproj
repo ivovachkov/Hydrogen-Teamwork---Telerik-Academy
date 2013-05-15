@@ -50,6 +50,7 @@
     <Compile Include="LabyrinthDemo.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="PlayerPosition.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="ScoreBoard.cs" />
   </ItemGroup>

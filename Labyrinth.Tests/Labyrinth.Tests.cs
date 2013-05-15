@@ -10,7 +10,7 @@ namespace Labyrinth.Tests
 		[ExpectedException(typeof(ArgumentNullException), "The start position cannot be null")]
 		public void Position_NullValue()
 		{
-			Position startPosition = new Position();
+			PlayerPosition startPosition = new PlayerPosition();
 			startPosition = null;
 			Labyrinth labyrinth = new Labyrinth(startPosition);
 		}

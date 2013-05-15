@@ -43,12 +43,7 @@ namespace Labyrinth
                     this.scores.Add(new Score(moves, name));
                 }
             }
-<<<<<<< HEAD
             this.scores.Sort();
-=======
-
-            scores.Sort();
->>>>>>> 11d3e3465cdf1ca408b205f69d71e7ca6afd8d2e
             Console.WriteLine(this);
         }
 
