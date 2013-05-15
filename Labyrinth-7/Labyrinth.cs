@@ -85,7 +85,7 @@ namespace Labyrinth
                 while (!labyrinth.IsGenerationDone)
                 {
                     labyrinth.Generate(labyrinthBoard, labyrinth.Position.X, labyrinth.Position.Y);
-                    //labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+                    ////labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
 
                     if (labyrinth.ExitPathAvailable(labyrinthBoard))
                     {
