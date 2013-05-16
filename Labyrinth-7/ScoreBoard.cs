@@ -7,7 +7,7 @@ namespace Labyrinth
     public class ScoreBoard
     {
         private const int Capacity = 5;
-        private List<Score> scores;
+        private readonly List<Score> scores;
 
         public List<Score> Scores
         {

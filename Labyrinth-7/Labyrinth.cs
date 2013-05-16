@@ -144,7 +144,6 @@ namespace Labyrinth
                         Console.WriteLine(this);
                         break;
                     case "restart":
-                        this.IsRunning = true;
                         return;
                     case "exit":
                         Console.WriteLine(Message.GoodBye);
@@ -156,7 +155,7 @@ namespace Labyrinth
                 }
             }
         }
-
+ 
         private void ProcessMoveLeft(int x, ref int y)
         {
             if (this.board[x, y - 1].Value == '-')
@@ -179,6 +178,8 @@ namespace Labyrinth
             }
         }
 
+
+       
         private void ProcessMoveRight(int x, ref int y)
         {
             if (this.board[x, y + 1].Value == '-')
