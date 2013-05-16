@@ -105,7 +105,7 @@ namespace Labyrinth
                     this.ScoreBoard.AddNewScore(this.CurrentMoves, name);
                     this.isRunning = true;
                 }
-                else
+                else if (!this.isRunning)
                 {
                     break;
                 }
@@ -144,10 +144,11 @@ namespace Labyrinth
                         Console.WriteLine(this);
                         break;
                     case "restart":
-                        this.IsRunning = false;
-                        break;
+                        this.IsRunning = true;
+                        return;
                     case "exit":
                         Console.WriteLine(Message.GoodBye);
+                        this.isRunning = false;
                         return;
                     default:
                         Console.WriteLine(Message.InvalidCommand);
