@@ -72,7 +72,7 @@ namespace Labyrinth
         {
             //PlayerPosition startPosition = new PlayerPosition(3, 3);
             //Labyrinth labyrinth = new Labyrinth(startPosition);
-            Cell[,] labyrinthBoard = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
+            //Cell[,] labyrinthBoard = new Cell[LabyrinthSize, LabyrinthSize];
             this.IsRunning = true;
 
             Console.WriteLine(Message.Welcome);
@@ -84,29 +84,31 @@ namespace Labyrinth
 
                 while (!this.IsGenerationDone)
                 {
-                    this.Generate(labyrinthBoard, this.Position.X, this.Position.Y);
-                    //labyrinth.SolutionChecker(labyrinthBoard, labyrinth.Pos.X, labyrinth.Pos.Y);
+                    this.Generate();
 
-                    if (this.ExitPathAvailable(labyrinthBoard))
+                    if (this.ExitPathAvailable())
                     {
                         break;
                     }
                 }
 
-                Console.WriteLine(this.Print(labyrinthBoard));
-                this.Run(labyrinthBoard, this.IsRunning, this.Position.X, this.Position.Y);
+                Console.WriteLine(this);
+                this.Run(this.IsRunning, this.Position.X, this.Position.Y);
 
-                //used for adding score only when game is finished naturally and not by the restart command.
                 if (this.IsWonWithEscape)
                 {
                     Console.Write("Please enter your name: ");
                     string name = Console.ReadLine();
                     this.ScoreBoard.AddNewScore(this.CurrentMoves, name);
                 }
+                else
+                {
+                    break;
+                }
             }
         }
 
-        public void Run(Cell[,] labyrinth, bool isGameRunning, int x, int y)
+        public void Run(bool isGameRunning, int x, int y)
         {
             CurrentMoves = 0;
 
@@ -119,32 +121,31 @@ namespace Labyrinth
                 switch (moveDirection.ToLower())
                 {
                     case "d":
-                        ProcessMoveDown(labyrinth, ref isGameRunning, ref x, y);
-                        Console.WriteLine(Print(labyrinth));
+                        ProcessMoveDown(ref isGameRunning, ref x, y);
+                        Console.WriteLine(this);
                         break;
                     case "u":
-                        ProcessMoveUp(labyrinth, ref isGameRunning, ref x, y);
-                        Console.WriteLine(Print(labyrinth));
+                        ProcessMoveUp(ref isGameRunning, ref x, y);
+                        Console.WriteLine(this);
                         break;
                     case "r":
-                        ProcessMoveRight(labyrinth, ref isGameRunning, x, ref y);
-                        Console.WriteLine(Print(labyrinth));
+                        ProcessMoveRight(ref isGameRunning, x, ref y);
+                        Console.WriteLine(this);
                         break;
                     case "l":
-                        ProcessMoveLeft(labyrinth, ref isGameRunning, x, ref y);
-                        Console.WriteLine(Print(labyrinth));
+                        ProcessMoveLeft(ref isGameRunning, x, ref y);
+                        Console.WriteLine(this);
                         break;
                     case "top":
                         Console.WriteLine(this.ScoreBoard);
-                        Console.WriteLine(Print(labyrinth));
+                        Console.WriteLine(this);
                         break;
                     case "restart":
                         isGameRunning = false;
                         break;
                     case "exit":
                         Console.WriteLine(Message.GoodBye);
-                        Environment.Exit(0);
-                        break;
+                        return;
                     default:
                         Console.WriteLine(Message.InvalidCommand);
                         break;
@@ -152,12 +153,12 @@ namespace Labyrinth
             }
         }
 
-        private void ProcessMoveLeft(Cell[,] labyrinth, ref bool isGameRunning, int x, ref int y)
+        private void ProcessMoveLeft(ref bool isGameRunning, int x, ref int y)
         {
-            if (labyrinth[x, y - 1].Value == '-')
+            if (this.board[x, y - 1].Value == '-')
             {
-                labyrinth[x, y].Value = '-';
-                labyrinth[x, y - 1].Value = '*';
+                this.board[x, y].Value = '-';
+                this.board[x, y - 1].Value = '*';
                 y--;
                 CurrentMoves++;
             }
@@ -174,12 +175,12 @@ namespace Labyrinth
             }
         }
 
-        private void ProcessMoveRight(Cell[,] labyrinth, ref bool isGameRunning, int x, ref int y)
+        private void ProcessMoveRight(ref bool isGameRunning, int x, ref int y)
         {
-            if (labyrinth[x, y + 1].Value == '-')
+            if (this.board[x, y + 1].Value == '-')
             {
-                labyrinth[x, y].Value = '-';
-                labyrinth[x, y + 1].Value = '*';
+                this.board[x, y].Value = '-';
+                this.board[x, y + 1].Value = '*';
                 y++;
                 CurrentMoves++;
             }
@@ -190,18 +191,18 @@ namespace Labyrinth
 
             if (y == LabyrinthSize - 1)
             {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
+                Console.WriteLine(Message.Congratulations, this.CurrentMoves);
                 isGameRunning = false;
                 IsWonWithEscape = true;
             }
         }
 
-        private void ProcessMoveUp(Cell[,] labyrinth, ref bool isGameRunning, ref int x, int y)
+        private void ProcessMoveUp(ref bool isGameRunning, ref int x, int y)
         {
-            if (labyrinth[x - 1, y].Value == '-')
+            if (this.board[x - 1, y].Value == '-')
             {
-                labyrinth[x, y].Value = '-';
-                labyrinth[x - 1, y].Value = '*';
+                this.board[x, y].Value = '-';
+                this.board[x - 1, y].Value = '*';
                 x--;
                 CurrentMoves++;
             }
@@ -218,12 +219,12 @@ namespace Labyrinth
             }
         }
 
-        private void ProcessMoveDown(Cell[,] labyrinth, ref bool isGameRunning, ref int x, int y)
+        private void ProcessMoveDown(ref bool isGameRunning, ref int x, int y)
         {
-            if (labyrinth[x + 1, y].Value == '-')
+            if (this.board[x + 1, y].Value == '-')
             {
-                labyrinth[x, y].Value = '-';
-                labyrinth[x + 1, y].Value = '*';
+                this.board[x, y].Value = '-';
+                this.board[x + 1, y].Value = '*';
                 x++;
                 CurrentMoves++;
             }
@@ -240,15 +241,15 @@ namespace Labyrinth
             }
         }
 
-        public string Print(Cell[,] labyrinth)
+        public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
-            for (int row = 0; row < labyrinth.GetLength(0); row++)
+            for (int row = 0; row < this.board.GetLength(0); row++)
             {
-                for (int col = 0; col < labyrinth.GetLength(1); col++)
+                for (int col = 0; col < this.board.GetLength(1); col++)
                 {
-                    result.Append(labyrinth[row, col].Value).Append(" ");
+                    result.Append(this.board[row, col].Value).Append(" ");
                 }
                 result.AppendLine();
             }
@@ -257,10 +258,10 @@ namespace Labyrinth
         }
 
         // changed return type for easy testing
-        public Cell[,] Generate(Cell[,] labyrinth, int x, int y)
+        public Cell[,] Generate()
         {
-            int numberOfRows = labyrinth.GetLength(0);
-            int numberOfColumns = labyrinth.GetLength(1);
+            int numberOfRows = this.board.GetLength(0);
+            int numberOfColumns = this.board.GetLength(1);
 
             for (int row = 0; row < numberOfRows; row++)
             {
@@ -269,27 +270,27 @@ namespace Labyrinth
                     int randomValue = randomNumber.Next(4);
                     if (randomValue == 0)
                     {
-                        labyrinth[row, column] = new Cell(row, column, '-');
+                        this.board[row, column] = new Cell(row, column, '-');
                     }
                     else
                     {
-                        labyrinth[row, column] = new Cell(row, column, 'x');
+                        this.board[row, column] = new Cell(row, column, 'x');
                     }
                 }
             }
 
-            labyrinth[position.X, position.Y].Value = '*';
+            this.board[this.Position.X, this.Position.Y].Value = '*';
 
-            return labyrinth;
+            return this.Clone();
         }
 
         //The is a posible that at the beginning we are stuck and we can't move.
-        public bool IsBlocked(Cell[,] labyrinth, int rowIndex, int columnIndex)
+        public bool IsBlocked(int rowIndex, int columnIndex)
         {
-            bool isTopBlocked = labyrinth[rowIndex - 1, columnIndex].Value == 'x';
-            bool isBottomBlocked = labyrinth[rowIndex + 1, columnIndex].Value == 'x';
-            bool isLeftBlocked = labyrinth[rowIndex, columnIndex - 1].Value == 'x';
-            bool isRightblocked = labyrinth[rowIndex, columnIndex + 1].Value == 'x';
+            bool isTopBlocked = this.board[rowIndex - 1, columnIndex].Value == 'x';
+            bool isBottomBlocked = this.board[rowIndex + 1, columnIndex].Value == 'x';
+            bool isLeftBlocked = this.board[rowIndex, columnIndex - 1].Value == 'x';
+            bool isRightblocked = this.board[rowIndex, columnIndex + 1].Value == 'x';
             bool isBlocked = isTopBlocked && isBottomBlocked && isLeftBlocked && isRightblocked;
 
             return isBlocked;
@@ -320,7 +321,7 @@ namespace Labyrinth
             }
         }
 
-        public bool ExitPathAvailable(Cell[,] labyrinth)
+        public bool ExitPathAvailable()
         {
             if (this.Position == null)
             {
@@ -328,7 +329,7 @@ namespace Labyrinth
             }
 
             Queue<Cell> visitedCells = new Queue<Cell>();
-            Cell[,] clonedLabyrinth = this.Clone(labyrinth);
+            Cell[,] clonedLabyrinth = this.Clone();
 
             this.VisitCell(clonedLabyrinth, visitedCells, this.Position.X, this.Position.Y);
 
@@ -353,37 +354,7 @@ namespace Labyrinth
             return false;
         }
 
-        private static void IsInside(Cell[,] labyrinth, ref int rowIndex,
-            ref int columnIndex, ref bool isAbleToMove)
-        {
-            if (labyrinth[rowIndex + 1, columnIndex].Value == '-')
-            {
-                labyrinth[rowIndex + 1, columnIndex].Value = '0';
-                rowIndex++;
-            }
-            else if (labyrinth[rowIndex, columnIndex + 1].Value == '-')
-            {
-                labyrinth[rowIndex, columnIndex + 1].Value = '0';
-                columnIndex++;
-            }
-            else if (labyrinth[rowIndex - 1, columnIndex].Value == '-')
-            {
-                labyrinth[rowIndex - 1, columnIndex].Value = '0';
-                rowIndex--;
-            }
-            else if (labyrinth[rowIndex, columnIndex - 1].Value == '-')
-            {
-                labyrinth[rowIndex, columnIndex - 1].Value = '0';
-                columnIndex--;
-            }
-            else
-            {
-                isAbleToMove = false;
-            }
-        }
-
-        // ToDo make it a part of the labyrinth board copy
-        public Cell[,] Clone(Cell[,] labyrinth)
+        public Cell[,] Clone()
         {
             Cell[,] cloned = new Cell[LabyrinthSize, LabyrinthSize];
 
@@ -391,7 +362,7 @@ namespace Labyrinth
             {
                 for (int column = 0; column < LabyrinthSize; column++)
                 {
-                    cloned[row, column] = labyrinth[row, column].Clone() as Cell;
+                    cloned[row, column] = this.board[row, column].Clone() as Cell;
                 }
             }
 
