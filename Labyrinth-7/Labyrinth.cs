@@ -64,7 +64,7 @@ namespace Labyrinth
 
         public Cell[,] Board
         {
-            get 
+            get
             {
                 return this.Clone();
             }
@@ -96,13 +96,14 @@ namespace Labyrinth
                 }
 
                 Console.WriteLine(this);
-                this.Run(this.IsRunning, this.Position.X, this.Position.Y);
+                this.Run(this.Position.X, this.Position.Y);
 
                 if (this.IsWonWithEscape)
                 {
                     Console.Write("Please enter your name: ");
                     string name = Console.ReadLine();
                     this.ScoreBoard.AddNewScore(this.CurrentMoves, name);
+                    this.isRunning = true;
                 }
                 else
                 {
@@ -111,11 +112,11 @@ namespace Labyrinth
             }
         }
 
-        private void Run(bool isGameRunning, int x, int y)
+        private void Run(int x, int y)
         {
             this.CurrentMoves = 0;
 
-            while (isGameRunning)
+            while (this.IsRunning)
             {
                 Console.Write(Message.ValidCommands);
                 string moveDirection = Console.ReadLine().ToLower();
@@ -123,19 +124,19 @@ namespace Labyrinth
                 switch (moveDirection)
                 {
                     case "d":
-                        ProcessMoveDown(ref isGameRunning, ref x, y);
+                        ProcessMoveDown(ref x, y);
                         Console.WriteLine(this);
                         break;
                     case "u":
-                        ProcessMoveUp(ref isGameRunning, ref x, y);
+                        ProcessMoveUp(ref x, y);
                         Console.WriteLine(this);
                         break;
                     case "r":
-                        ProcessMoveRight(ref isGameRunning, x, ref y);
+                        ProcessMoveRight(x, ref y);
                         Console.WriteLine(this);
                         break;
                     case "l":
-                        ProcessMoveLeft(ref isGameRunning, x, ref y);
+                        ProcessMoveLeft(x, ref y);
                         Console.WriteLine(this);
                         break;
                     case "top":
@@ -143,7 +144,7 @@ namespace Labyrinth
                         Console.WriteLine(this);
                         break;
                     case "restart":
-                        isGameRunning = false;
+                        this.IsRunning = false;
                         break;
                     case "exit":
                         Console.WriteLine(Message.GoodBye);
@@ -155,7 +156,7 @@ namespace Labyrinth
             }
         }
 
-        private void ProcessMoveLeft(ref bool isGameRunning, int x, ref int y)
+        private void ProcessMoveLeft(int x, ref int y)
         {
             if (this.board[x, y - 1].Value == '-')
             {
@@ -172,12 +173,12 @@ namespace Labyrinth
             if (y == 0)
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
-                isGameRunning = false;
+                this.IsRunning = false;
                 this.IsWonWithEscape = true;
             }
         }
 
-        private void ProcessMoveRight(ref bool isGameRunning, int x, ref int y)
+        private void ProcessMoveRight(int x, ref int y)
         {
             if (this.board[x, y + 1].Value == '-')
             {
@@ -194,12 +195,12 @@ namespace Labyrinth
             if (y == LabyrinthSize - 1)
             {
                 Console.WriteLine(Message.Congratulations, this.CurrentMoves);
-                isGameRunning = false;
+                this.IsRunning = false;
                 this.IsWonWithEscape = true;
             }
         }
 
-        private void ProcessMoveUp(ref bool isGameRunning, ref int x, int y)
+        private void ProcessMoveUp(ref int x, int y)
         {
             if (this.board[x - 1, y].Value == '-')
             {
@@ -216,12 +217,12 @@ namespace Labyrinth
             if (x == 0)
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
-                isGameRunning = false;
+                this.IsRunning = false;
                 this.IsWonWithEscape = true;
             }
         }
 
-        private void ProcessMoveDown(ref bool isGameRunning, ref int x, int y)
+        private void ProcessMoveDown(ref int x, int y)
         {
             if (this.board[x + 1, y].Value == '-')
             {
@@ -238,7 +239,7 @@ namespace Labyrinth
             if (x == LabyrinthSize - 1)
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
-                isGameRunning = false;
+                this.IsRunning = false;
                 this.IsWonWithEscape = true;
             }
         }
@@ -261,12 +262,9 @@ namespace Labyrinth
 
         public Cell[,] Generate()
         {
-            int numberOfRows = this.board.GetLength(0);
-            int numberOfColumns = this.board.GetLength(1);
-
-            for (int row = 0; row < numberOfRows; row++)
+            for (int row = 0; row < this.board.GetLength(0); row++)
             {
-                for (int column = 0; column < numberOfColumns; column++)
+                for (int column = 0; column < this.board.GetLength(1); column++)
                 {
                     int randomValue = randomNumber.Next(4);
                     if (randomValue == 0)
