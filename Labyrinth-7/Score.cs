@@ -29,5 +29,15 @@ namespace Labyrinth
         {
             return this.Moves.CompareTo(other.Moves);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (((Score)obj).Name == this.Name && ((Score)obj).Moves == this.Moves)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
