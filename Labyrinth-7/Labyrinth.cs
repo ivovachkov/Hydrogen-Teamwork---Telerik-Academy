@@ -8,12 +8,10 @@ namespace Labyrinth
     {
         public const int LabyrinthSize = 7;
 
-        // Added new field for better use of random numberes
         private readonly Random randomNumber = new Random();
         private bool isWonWithEscape;
         private PlayerPosition position = new PlayerPosition();
         private ScoreBoard scoreBoard = new ScoreBoard();
-
         private Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
 
         public Labyrinth(PlayerPosition startPosition)
@@ -32,11 +30,11 @@ namespace Labyrinth
         {
             get
             {
-                return isWonWithEscape;
+                return this.isWonWithEscape;
             }
             set
             {
-                isWonWithEscape = value;
+                this.isWonWithEscape = value;
             }
         }
 
@@ -44,11 +42,11 @@ namespace Labyrinth
         {
             get
             {
-                return position;
+                return this.position;
             }
             set
             {
-                position = value;
+                this.position = value;
             }
         }
 
@@ -64,15 +62,20 @@ namespace Labyrinth
             }
         }
 
+        public Cell[,] Board
+        {
+            get 
+            {
+                return this.Clone();
+            }
+        }
+
         #endregion
 
         #region Methods
 
         public void StartGame()
         {
-            //PlayerPosition startPosition = new PlayerPosition(3, 3);
-            //Labyrinth labyrinth = new Labyrinth(startPosition);
-            //Cell[,] labyrinthBoard = new Cell[LabyrinthSize, LabyrinthSize];
             this.IsRunning = true;
 
             Console.WriteLine(Message.Welcome);
@@ -108,17 +111,16 @@ namespace Labyrinth
             }
         }
 
-        public void Run(bool isGameRunning, int x, int y)
+        private void Run(bool isGameRunning, int x, int y)
         {
-            CurrentMoves = 0;
+            this.CurrentMoves = 0;
 
             while (isGameRunning)
             {
                 Console.Write(Message.ValidCommands);
-                string moveDirection = Console.ReadLine();
+                string moveDirection = Console.ReadLine().ToLower();
 
-                // Removed the need to check for uppercase or lowercase
-                switch (moveDirection.ToLower())
+                switch (moveDirection)
                 {
                     case "d":
                         ProcessMoveDown(ref isGameRunning, ref x, y);
@@ -160,7 +162,7 @@ namespace Labyrinth
                 this.board[x, y].Value = '-';
                 this.board[x, y - 1].Value = '*';
                 y--;
-                CurrentMoves++;
+                this.CurrentMoves++;
             }
             else
             {
@@ -171,7 +173,7 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
                 isGameRunning = false;
-                IsWonWithEscape = true;
+                this.IsWonWithEscape = true;
             }
         }
 
@@ -182,7 +184,7 @@ namespace Labyrinth
                 this.board[x, y].Value = '-';
                 this.board[x, y + 1].Value = '*';
                 y++;
-                CurrentMoves++;
+                this.CurrentMoves++;
             }
             else
             {
@@ -193,7 +195,7 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.Congratulations, this.CurrentMoves);
                 isGameRunning = false;
-                IsWonWithEscape = true;
+                this.IsWonWithEscape = true;
             }
         }
 
@@ -204,7 +206,7 @@ namespace Labyrinth
                 this.board[x, y].Value = '-';
                 this.board[x - 1, y].Value = '*';
                 x--;
-                CurrentMoves++;
+                this.CurrentMoves++;
             }
             else
             {
@@ -215,7 +217,7 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
                 isGameRunning = false;
-                IsWonWithEscape = true;
+                this.IsWonWithEscape = true;
             }
         }
 
@@ -237,7 +239,7 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.Congratulations, CurrentMoves);
                 isGameRunning = false;
-                IsWonWithEscape = true;
+                this.IsWonWithEscape = true;
             }
         }
 
@@ -257,7 +259,6 @@ namespace Labyrinth
             return result.ToString();
         }
 
-        // changed return type for easy testing
         public Cell[,] Generate()
         {
             int numberOfRows = this.board.GetLength(0);
@@ -285,7 +286,7 @@ namespace Labyrinth
         }
 
         //The is a posible that at the beginning we are stuck and we can't move.
-        public bool IsBlocked(int rowIndex, int columnIndex)
+        private bool IsBlocked(int rowIndex, int columnIndex)
         {
             bool isTopBlocked = this.board[rowIndex - 1, columnIndex].Value == 'x';
             bool isBottomBlocked = this.board[rowIndex + 1, columnIndex].Value == 'x';
@@ -296,7 +297,7 @@ namespace Labyrinth
             return isBlocked;
         }
 
-        public bool IsOnBoarder(int rowIndex, int columnIndex)
+        private bool IsOnBorder(int rowIndex, int columnIndex)
         {
             if (rowIndex == 0 || rowIndex == LabyrinthSize - 1)
             {
@@ -321,7 +322,7 @@ namespace Labyrinth
             }
         }
 
-        public bool ExitPathAvailable()
+        private bool ExitPathAvailable()
         {
             if (this.Position == null)
             {
@@ -339,7 +340,7 @@ namespace Labyrinth
                 int row = currentCell.Row;
                 int column = currentCell.Column;
 
-                if (this.IsOnBoarder(row, column))
+                if (this.IsOnBorder(row, column))
                 {
                     return true;
                 }
