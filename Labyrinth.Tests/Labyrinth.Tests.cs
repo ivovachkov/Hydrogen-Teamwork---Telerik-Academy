@@ -7,7 +7,7 @@ namespace Labyrinth.Tests
     [TestClass]
     public class LabyrinthTests
     {
-        public Cell[,] LabyrinthDataFromStringArray(string[] rawData)
+        private Cell[,] LabyrinthDataFromStringArray(string[] rawData)
         {
             Cell[,] result = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
 
