@@ -77,6 +77,31 @@ namespace Labyrinth.Tests
         }
 
         [TestMethod]
+        public void AddSixScoresCountTest()
+        {
+            ScoreBoard scoreBoard = new ScoreBoard();
+            scoreBoard.AddNewScore(4, "Pesho");
+            scoreBoard.AddNewScore(7, "Gosho");
+            scoreBoard.AddNewScore(5, "Dragan");
+            scoreBoard.AddNewScore(8, "Petkan");
+            scoreBoard.AddNewScore(3, "Temelko");
+            scoreBoard.AddNewScore(3, "Temelko");
+            List<Score> actual = scoreBoard.Scores;
+
+            Assert.AreEqual(5, actual.Count);
+        }
+
+        [TestMethod]
+        public void AddScoresEmptyScoreBoardTest()
+        {
+            ScoreBoard scoreBoard = new ScoreBoard();
+
+            List<Score> actual = scoreBoard.Scores;
+
+            Assert.AreEqual(0, actual.Count);
+        }
+
+        [TestMethod]
         public void ToStringTest()
         {
             ScoreBoard scoreBoard = new ScoreBoard();
@@ -93,6 +118,15 @@ Top 5:
 
 
 ";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ToStringEmptyScoreBoardTest()
+        {
+            ScoreBoard scoreBoard = new ScoreBoard();
+            string actual = scoreBoard.ToString();
+            string expected = "\r\nThe scoreboard is empty.\r\n";
             Assert.AreEqual(expected, actual);
         }
     }
