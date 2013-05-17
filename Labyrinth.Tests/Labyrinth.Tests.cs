@@ -42,5 +42,33 @@ namespace Labyrinth.Tests
 
             Assert.AreEqual(true, actual);
         }
+
+		[TestMethod]
+		public void IsGameWonTestTrue()
+		{
+			PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+			Labyrinth labyrinth = new Labyrinth(startPosition);
+
+			var privateObject = new PrivateObject(labyrinth);
+
+			var actual = privateObject.Invoke("IsGameWon", 6, 6);
+
+			Assert.AreEqual(true, actual);
+		}
+
+		[TestMethod]
+		public void IsGameWonTestFalse()
+		{
+			PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+			Labyrinth labyrinth = new Labyrinth(startPosition);
+
+			var privateObject = new PrivateObject(labyrinth);
+
+			var actual = privateObject.Invoke("IsGameWon", 3, 3);
+
+			Assert.AreEqual(false, actual);
+		}
 	}
 }
