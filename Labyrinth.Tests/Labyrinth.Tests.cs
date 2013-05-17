@@ -297,6 +297,29 @@ X X X X X X X
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void IsExitPathAvailableFalseWithNullPosition()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X---X",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+            Labyrinth labyrinth = new Labyrinth(null, board);
+            var privateObject = new PrivateObject(labyrinth);
+            var result = privateObject.Invoke("ExitPathAvailable");
+        }
+
+        [TestMethod]
         public void IsWonWithEscapeFalse()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
@@ -354,6 +377,12 @@ X X X X X X X
             //        Assert.AreEqual(board[row, column], labyrinth.Board[row, column]);
             //    }
             //}
+        }
+
+        [TestMethod]
+        public void LaburintMain()
+        {
+           
         }
     }
 }
