@@ -32,7 +32,8 @@ namespace Labyrinth
 
         public override bool Equals(object obj)
         {
-            if (((Score)obj).Name == this.Name && ((Score)obj).Moves == this.Moves)
+            if (((Score)obj).Name == this.Name && 
+                ((Score)obj).Moves == this.Moves)
             {
                 return true;
             }

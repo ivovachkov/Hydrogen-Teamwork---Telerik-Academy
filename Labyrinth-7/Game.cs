@@ -2,8 +2,9 @@
 {
     public abstract class Game
     {
-        protected bool isRunning;     
-        protected int currentMoves;
+        private bool isRunning;     
+        private int currentMoves;
+        private bool isGameRestarted;
         
         public bool IsRunning
         {
@@ -12,7 +13,7 @@
                 return this.isRunning;
             }
 
-            set
+            protected set
             {
                 isRunning = value;
             }
@@ -28,6 +29,19 @@
             protected set
             {
                 this.currentMoves = value;
+            }
+        }
+
+        public bool IsGameRestarted
+        {
+            get 
+            {
+                return this.isGameRestarted;
+            }
+
+            protected set
+            {
+                this.isGameRestarted = value;
             }
         }
     }

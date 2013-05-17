@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Labyrinth
+﻿namespace Labyrinth
 {
     public class LabyrinthDemo
     {
