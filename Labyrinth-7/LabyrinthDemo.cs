@@ -5,22 +5,7 @@ namespace Labyrinth
 {
     public class LabyrinthDemo
     {
-        public static Cell[,] LabyrinthDataFromStringArray(string[] rawData)
-        {
-            Cell[,] result = new Cell[Labyrinth.LabyrinthSize, Labyrinth.LabyrinthSize];
-
-            for (int row = 0; row < Labyrinth.LabyrinthSize; row++)
-            {
-                for (int column = 0; column < Labyrinth.LabyrinthSize; column++)
-                {
-                    result[row, column] = new Cell(row, column, rawData[row][column]);
-                }
-            }
-
-            return result;
-        }
-
-        static void Main()
+        static public void Main()
         {
 
             //PlayerPosition startPosition = new PlayerPosition(3, 3);

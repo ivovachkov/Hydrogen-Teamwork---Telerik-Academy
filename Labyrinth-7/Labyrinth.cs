@@ -317,12 +317,6 @@ namespace Labyrinth
 
         private bool ExitPathAvailable()
         {
-            if (this.Position == null)
-            {
-                throw new ArgumentException(
-                    "The value of the start cell cannot be null");
-            }
-
             Queue<Cell> visitedCells = new Queue<Cell>();
             Cell[,] clonedLabyrinth = this.Clone();
 
