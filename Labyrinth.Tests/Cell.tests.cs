@@ -13,6 +13,7 @@ namespace Labyrinth.Tests
             int column = 3;
             char value = '-';
             Cell cell = new Cell(row, column, value);
+
             Assert.AreEqual(cell.Value, value);
         }
 
@@ -23,6 +24,7 @@ namespace Labyrinth.Tests
             int column = 3;
             char value = '-';
             Cell cell = new Cell(row, column, value);
+
             Assert.AreEqual(cell.Row, row);
         }
 
@@ -33,6 +35,7 @@ namespace Labyrinth.Tests
             int column = 3;
             char value = '-';
             Cell cell = new Cell(row, column, value);
+
             Assert.AreEqual(cell.Column, column);
         }
 

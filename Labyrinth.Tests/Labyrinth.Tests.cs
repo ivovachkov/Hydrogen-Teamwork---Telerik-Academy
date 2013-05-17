@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Labyrinth.Tests
@@ -36,11 +34,8 @@ namespace Labyrinth.Tests
         public void IsOnBoarderTest()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             Labyrinth labyrinth = new Labyrinth(startPosition);
-
             var privateObject = new PrivateObject(labyrinth);
-
             var actual = privateObject.Invoke("IsOnBorder", 6, 6);
 
             Assert.AreEqual(true, actual);
@@ -50,11 +45,8 @@ namespace Labyrinth.Tests
         public void IsGameWonTestTrue()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             Labyrinth labyrinth = new Labyrinth(startPosition);
-
             var privateObject = new PrivateObject(labyrinth);
-
             var actual = privateObject.Invoke("IsGameWon", 6, 6);
 
             Assert.AreEqual(true, actual);
@@ -64,11 +56,8 @@ namespace Labyrinth.Tests
         public void IsGameWonTestFalse()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             Labyrinth labyrinth = new Labyrinth(startPosition);
-
             var privateObject = new PrivateObject(labyrinth);
-
             var actual = privateObject.Invoke("IsGameWon", 3, 3);
 
             Assert.AreEqual(false, actual);
@@ -78,7 +67,6 @@ namespace Labyrinth.Tests
         public void LabyrinthMoveUpTest()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -89,15 +77,10 @@ namespace Labyrinth.Tests
                 "X-----X",
                 "XXXXXXX"
             };
-
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
             var privateObject = new PrivateObject(labyrinth);
-
             privateObject.Invoke("ProcessMoveUp", 3, 3);
-
             string result =
                 @"X X X X X X X 
 X - X - - - X 
@@ -108,6 +91,7 @@ X - - - - - X
 X X X X X X X 
 ";
             string expected = labyrinth.ToString();
+
             Assert.AreEqual(expected, result);                       
         }
 
@@ -115,7 +99,6 @@ X X X X X X X
         public void LabyrinthMoveDownTest()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -128,13 +111,9 @@ X X X X X X X
             };
 
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
             var privateObject = new PrivateObject(labyrinth);
-
             privateObject.Invoke("ProcessMoveDown", 3, 3);
-
             string result =
                 @"X X X X X X X 
 X - X - - - X 
@@ -145,6 +124,7 @@ X - - - - - X
 X X X X X X X 
 ";
             string expected = labyrinth.ToString();
+
             Assert.AreEqual(expected, result);
         }
 
@@ -189,7 +169,6 @@ X X X X X X X
         public void LabyrinthMoveRight()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -200,13 +179,10 @@ X X X X X X X
                 "X-----X",
                 "XXXXXXX"
             };
-
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
 
             var privateObject = new PrivateObject(labyrinth);
-
             privateObject.Invoke("ProcessMoveRight", 3, 3);
 
             string result =
@@ -219,6 +195,7 @@ X - - - - - X
 X X X X X X X 
 ";
             string expected = labyrinth.ToString();
+
             Assert.AreEqual(expected, result);
         }
 
@@ -226,7 +203,6 @@ X X X X X X X
         public void IsExitPathAvailableTrue()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -237,33 +213,18 @@ X X X X X X X
                 "X-----X",
                 "XXXXXXX"
             };
-
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
             var privateObject = new PrivateObject(labyrinth);
+            var result = privateObject.Invoke("ExitPathAvailable");
 
-           var result = privateObject.Invoke("ExitPathAvailable");
-
-//            string result =
-//                @"X X X X X X X 
-//X - X - - - X 
-//X - - - X - X 
-//X - - - * - X 
-//X - X - - - - 
-//X - - - - - X 
-//X X X X X X X 
-//";
-            //string expected = labyrinth.ToString();
-           Assert.AreEqual(true, result);
+            Assert.AreEqual(true, result);
         }
 
         [TestMethod]
         public void IsExitPathAvailableFalse()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -276,23 +237,10 @@ X X X X X X X
             };
 
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
             var privateObject = new PrivateObject(labyrinth);
-
             var result = privateObject.Invoke("ExitPathAvailable");
 
-            //            string result =
-            //                @"X X X X X X X 
-            //X - X - - - X 
-            //X - - - X - X 
-            //X - - - * - X 
-            //X - X - - - - 
-            //X - - - - - X 
-            //X X X X X X X 
-            //";
-            //string expected = labyrinth.ToString();
             Assert.AreEqual(false, result);
         }
 
@@ -301,7 +249,6 @@ X X X X X X X
         public void IsExitPathAvailableFalseWithNullPosition()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -323,7 +270,6 @@ X X X X X X X
         public void IsWonWithEscapeFalse()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
-
             string[] rawData = new string[Labyrinth.LabyrinthSize]
             {
                 "XXXXXXX",
@@ -334,13 +280,8 @@ X X X X X X X
                 "X-----X",
                 "XXXXXXX"
             };
-
             Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
             Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
-
-
             var result = labyrinth.IsWonWithEscape;
 
             Assert.AreEqual(false, result);
@@ -349,34 +290,6 @@ X X X X X X X
         [TestMethod]
         public void GetBoardTest()
         {
-            //PlayerPosition startPosition = new PlayerPosition(3, 3);
-
-            //string[] rawData = new string[Labyrinth.LabyrinthSize]
-            //{
-            //    "XXXXXXX",
-            //    "X-X---X",
-            //    "X---X-X",
-            //    "X--*--X",
-            //    "X-X---X",
-            //    "X-----X",
-            //    "XXXXXXX"
-            //};
-
-            //Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
-            //Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
-
-
-            //var result = labyrinth.Board;
-
-            //for (int row = 0; row < Labyrinth.LabyrinthSize; row++)
-            //{
-            //    for (int column = 0; column < Labyrinth.LabyrinthSize; column++)
-            //    {
-            //        Assert.AreEqual(board[row, column], labyrinth.Board[row, column]);
-            //    }
-            //}
         }
 
         [TestMethod]
@@ -406,7 +319,6 @@ X X X X X X X
 
             privateObject.Invoke("ProcessMove", "u", x, y);
 
-
             string result =
                 @"X X X X X X X 
 X - X - - - X 
@@ -419,7 +331,6 @@ X X X X X X X
             string expected = labyrinth.ToString();
             Assert.AreEqual(expected, result);  
         }
-
 
         [TestMethod]
         public void PlayerCommanDownTest()
@@ -458,7 +369,6 @@ X X X X X X X
             string expected = labyrinth.ToString();
             Assert.AreEqual(expected, result);
         }
-
 
         [TestMethod]
         public void PlayerCommanLeftTest()
@@ -561,7 +471,6 @@ X X X X X X X
             int y = 3;
             privateObject.Invoke("ProcessMove", "restart", x, y);
 
-
             Assert.AreEqual(true, labyrinth.IsGameRestarted);
         }
 
@@ -589,7 +498,6 @@ X X X X X X X
             int x = 3;
             int y = 3;
             privateObject.Invoke("ProcessMove", "exit", x, y);
-
 
             Assert.AreEqual(false, labyrinth.IsRunning);
         }
@@ -645,7 +553,6 @@ Top 5:
             Labyrinth labyrinth = new Labyrinth(new PlayerPosition(0, 0), null);
         }
 
-
         [TestMethod]
         public void ValidRandomGenerate()
         {
@@ -681,40 +588,6 @@ X X X X X X X
 ";
             string expected = labyrinth.ToString();
             Assert.AreNotEqual(labyrinth.ToString(), result);
-        }
-
-        [TestMethod]
-        public void PlayerInvalidCommand()
-        {
-            PlayerPosition startPosition = new PlayerPosition(3, 3);
-
-            string[] rawData = new string[Labyrinth.LabyrinthSize]
-            {
-                "XXXXXXX",
-                "X-X---X",
-                "X---X-X",
-                "X--*--X",
-                "X-X----",
-                "X-----X",
-                "XXXXXXX"
-            };
-
-            Cell[,] board = LabyrinthDataFromStringArray(rawData);
-
-            Labyrinth labyrinth = new Labyrinth(startPosition, board);
-
-            var privateObject = new PrivateObject(labyrinth);
-            int x = 3;
-            int y = 3;
-            
-
-            string result = string.Empty;
-            StringReader a = new StringReader(result);
-
-            Console.SetIn(a);
-            privateObject.Invoke("ProcessMove", "abcd", x, y);
-            string b = a.ReadLine();
-            Assert.AreEqual("Invalid command!", b);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace Labyrinth.Tests
                 new Score(7, "Gosho"),
                 new Score(5, "Dragan")
             };
+
             expected.Sort();
 
             CollectionAssert.AreEqual(expected, actual);
@@ -53,6 +54,7 @@ namespace Labyrinth.Tests
                 new Score(7, "Gosho"),
                 new Score(5, "Dragan")
             };
+
             expected.Sort();
 
             CollectionAssert.AreNotEqual(expected, actual);
@@ -95,7 +97,6 @@ namespace Labyrinth.Tests
         public void AddScoresEmptyScoreBoardTest()
         {
             ScoreBoard scoreBoard = new ScoreBoard();
-
             List<Score> actual = scoreBoard.Scores;
 
             Assert.AreEqual(0, actual.Count);
@@ -118,6 +119,7 @@ Top 5:
 
 
 ";
+
             Assert.AreEqual(expected, actual);
         }
 
@@ -127,6 +129,7 @@ Top 5:
             ScoreBoard scoreBoard = new ScoreBoard();
             string actual = scoreBoard.ToString();
             string expected = "\r\nThe scoreboard is empty.\r\n";
+
             Assert.AreEqual(expected, actual);
         }
     }
