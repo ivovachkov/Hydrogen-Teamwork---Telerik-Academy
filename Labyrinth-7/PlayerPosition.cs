@@ -8,7 +8,8 @@ namespace Labyrinth
         private int y;
 
         public PlayerPosition()
-        { }
+        { 
+        }
 
         public PlayerPosition(int x, int y)
         {
