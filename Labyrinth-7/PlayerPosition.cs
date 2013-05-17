@@ -1,4 +1,6 @@
-﻿namespace Labyrinth
+﻿using System;
+
+namespace Labyrinth
 {
     public class PlayerPosition
     {
@@ -20,8 +22,14 @@
             {
                 return this.y;
             }
+
             set
             {
+                if (value < 0)
+                {
+                    throw new ArgumentException("The value cannot be negative", "y");
+                }
+
                 this.y = value;
             }
         }
@@ -32,8 +40,14 @@
             {
                 return this.x;
             }
+
             set
             {
+                if (value < 0)
+                {
+                    throw new ArgumentException("The value cannot be negative", "x");
+                }
+
                 this.x = value;
             }
         }

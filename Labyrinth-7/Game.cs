@@ -1,45 +1,47 @@
-﻿
-namespace Labyrinth
+﻿namespace Labyrinth
 {
     public abstract class Game
     {
-        protected bool isRunning;
-        protected bool isFinished;       
-        protected int currentMoves;
+        private bool isRunning;     
+        private int currentMoves;
+        private bool isGameRestarted;
         
         public bool IsRunning
         {
             get
             {
-                return isRunning;
+                return this.isRunning;
             }
-            set
+
+            protected set
             {
                 isRunning = value;
             }
         }
 
-        //public bool IsGenerationDone
-        //{
-        //    get
-        //    {
-        //        return isFinished;
-        //    }
-        //    set
-        //    {
-        //        isFinished = value;
-        //    }
-        //}
-
         public int CurrentMoves
         {
             get
             {
-                return currentMoves;
+                return this.currentMoves;
             }
+
             protected set
             {
-                currentMoves = value;
+                this.currentMoves = value;
+            }
+        }
+
+        public bool IsGameRestarted
+        {
+            get 
+            {
+                return this.isGameRestarted;
+            }
+
+            protected set
+            {
+                this.isGameRestarted = value;
             }
         }
     }

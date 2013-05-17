@@ -15,18 +15,32 @@ namespace Labyrinth.Tests
 			Labyrinth labyrinth = new Labyrinth(startPosition);
 		}
 
-        [TestMethod]
-        public void IsInBorderTest()
+        [TestMethod]        
+        public void Test()
         {
-            PlayerPosition startPosition = new PlayerPosition(3, 3);
+            PlayerPosition startPosition = new PlayerPosition(3,3);
+            
             Labyrinth labyrinth = new Labyrinth(startPosition);
 
             var privateObject = new PrivateObject(labyrinth);
-            int zero = 0;
 
-            var actual = privateObject.Invoke("IsOnBorder", zero, zero);
-            var expected = true;
-            Assert.AreEqual(expected, actual);
+            var actual = privateObject.Invoke("test","here","there");
+
+            Assert.AreEqual("herethere", actual);
+        }
+
+        [TestMethod]
+        public void IsOnBoarderTest()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+            var actual = privateObject.Invoke("IsOnBorder", 6, 6);
+
+            Assert.AreEqual(true, actual);
         }
 	}
 }

@@ -10,7 +10,7 @@ namespace Labyrinth
 
         private readonly Random randomNumber = new Random();
         private bool isWonWithEscape;
-        private PlayerPosition position = new PlayerPosition();
+        private PlayerPosition position;
         private ScoreBoard scoreBoard = new ScoreBoard();
         private readonly Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
 
@@ -22,6 +22,22 @@ namespace Labyrinth
             }
 
             this.Position = startPosition;
+        }
+
+        public Labyrinth(PlayerPosition startPosition, Cell[,] board)
+        {
+            if (startPosition == null)
+            {
+                throw new ArgumentNullException("The start position cannot be null");
+            }
+
+            if (board == null)
+            {
+                throw new ArgumentNullException("The board cannot be null");
+            }
+
+            this.Position = startPosition;
+            this.board = board;
         }
 
         #region Properties
@@ -44,6 +60,7 @@ namespace Labyrinth
             {
                 return this.position;
             }
+
             set
             {
                 this.position = value;
@@ -56,6 +73,7 @@ namespace Labyrinth
             {
                 return this.scoreBoard;
             }
+
             set
             {
                 this.scoreBoard = value;
@@ -77,24 +95,18 @@ namespace Labyrinth
         public void StartGame()
         {
             this.IsRunning = true;
-
             Console.WriteLine(Message.Welcome);
 
-            while (true)
+            while (this.IsRunning)
             {
-               // this.IsGenerationDone = false;
+                this.IsGameRestarted = false;
                 this.IsWonWithEscape = false;
 
-                //while (!this.IsGenerationDone)
-                while(true)
+                do
                 {
                     this.Generate();
-
-                    if (this.ExitPathAvailable())
-                    {
-                        break;
-                    }
                 }
+                while (!this.ExitPathAvailable());
 
                 Console.WriteLine(this);
                 this.Run(this.Position.X, this.Position.Y);
@@ -104,11 +116,7 @@ namespace Labyrinth
                     Console.Write("Please enter your name: ");
                     string name = Console.ReadLine();
                     this.ScoreBoard.AddNewScore(this.CurrentMoves, name);
-                    this.isRunning = true;
-                }
-                else if (!this.isRunning)
-                {
-                    break;
+                    this.IsRunning = true;
                 }
             }
         }
@@ -122,49 +130,73 @@ namespace Labyrinth
                 Console.Write(Message.ValidCommands);
                 string moveDirection = Console.ReadLine().ToLower();
 
-                switch (moveDirection)
-                {
-                    case "d":
-                        ProcessMoveDown(ref x, y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "u":
-                        ProcessMoveUp(ref x, y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "r":
-                        ProcessMoveRight(x, ref y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "l":
-                        ProcessMoveLeft(x, ref y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "top":
-                        Console.WriteLine(this.ScoreBoard);
-                        //Console.WriteLine(this);
-                        break;
-                    case "restart":
-                        return;
-                    case "exit":
-                        Console.WriteLine(Message.GoodBye);
-                        this.isRunning = false;
-                        return;
-                    default:
-                        Console.WriteLine(Message.InvalidCommand);
-                        break;
-                }
+                ProcessMove(moveDirection, ref x, ref y);
 
-                Console.WriteLine(this);
+                if (this.IsGameRestarted)
+                {
+                    return;
+                }
+                else if (this.IsRunning)
+                {
+                    IsGameWon(x, y);
+                    Console.WriteLine(this);
+                }
             }
         }
- 
+
+        private void ProcessMove(string moveDirection, ref int x, ref int y)
+        {
+            switch (moveDirection)
+            {
+                case "d":
+                    ProcessMoveDown(ref x, y);
+                    break;
+                case "u":
+                    ProcessMoveUp(ref x, y);
+                    break;
+                case "r":
+                    ProcessMoveRight(x, ref y);
+                    break;
+                case "l":
+                    ProcessMoveLeft(x, ref y);
+                    break;
+                case "top":
+                    Console.WriteLine(this.ScoreBoard);
+                    break;
+                case "restart":
+                    this.IsGameRestarted = true;
+                    return;
+                case "exit":
+                    Console.WriteLine(Message.GoodBye);
+                    this.IsRunning = false;
+                    return;
+                default:
+                    Console.WriteLine(Message.InvalidCommand);
+                    break;
+            }
+
+        }
+
+        private bool IsGameWon(int x, int y)
+        {
+            if (this.IsOnBorder(x, y))
+            {
+                Console.WriteLine(Message.Congratulations, CurrentMoves);
+                this.IsRunning = false;
+                this.IsWonWithEscape = true;
+
+                return true;
+            }
+
+            return false;
+        }
+
         private void ProcessMoveLeft(int x, ref int y)
         {
-            if (this.board[x, y - 1].Value == '-')
+            if (this.board[x, y - 1].Value == Cell.Empty)
             {
-                this.board[x, y].Value = '-';
-                this.board[x, y - 1].Value = '*';
+                this.board[x, y].Value = Cell.Empty;
+                this.board[x, y - 1].Value = Cell.Player;
                 y--;
                 this.CurrentMoves++;
             }
@@ -172,21 +204,14 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.InvalidMove);
             }
-
-            if (y == 0)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
-            }
         }
-      
+
         private void ProcessMoveRight(int x, ref int y)
         {
-            if (this.board[x, y + 1].Value == '-')
+            if (this.board[x, y + 1].Value == Cell.Empty)
             {
-                this.board[x, y].Value = '-';
-                this.board[x, y + 1].Value = '*';
+                this.board[x, y].Value = Cell.Empty;
+                this.board[x, y + 1].Value = Cell.Player;
                 y++;
                 this.CurrentMoves++;
             }
@@ -194,21 +219,14 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.InvalidMove);
             }
-
-            if (y == LabyrinthSize - 1)
-            {
-                Console.WriteLine(Message.Congratulations, this.CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
-            }
         }
 
         private void ProcessMoveUp(ref int x, int y)
         {
-            if (this.board[x - 1, y].Value == '-')
+            if (this.board[x - 1, y].Value == Cell.Empty)
             {
-                this.board[x, y].Value = '-';
-                this.board[x - 1, y].Value = '*';
+                this.board[x, y].Value = Cell.Empty;
+                this.board[x - 1, y].Value = Cell.Player;
                 x--;
                 this.CurrentMoves++;
             }
@@ -216,34 +234,20 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.InvalidMove);
             }
-
-            if (x == 0)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
-            }
         }
 
         private void ProcessMoveDown(ref int x, int y)
         {
-            if (this.board[x + 1, y].Value == '-')
+            if (this.board[x + 1, y].Value == Cell.Empty)
             {
-                this.board[x, y].Value = '-';
-                this.board[x + 1, y].Value = '*';
+                this.board[x, y].Value = Cell.Empty;
+                this.board[x + 1, y].Value = Cell.Player;
                 x++;
-                CurrentMoves++;
+                this.CurrentMoves++;
             }
             else
             {
                 Console.WriteLine(Message.InvalidMove);
-            }
-
-            if (x == LabyrinthSize - 1)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
             }
         }
 
@@ -296,15 +300,15 @@ namespace Labyrinth
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
-        private void VisitCell(Cell[,] labyrinth, Queue<Cell> visitedCells, int row, int column)
+        private void VisitCell(Cell[,] labyrinth, Queue<Cell> visitedCells, 
+            int row, int column)
         {
-            if (labyrinth[row, column].Value == Cell.Empty || labyrinth[row, column].Value == Cell.Player)
+            if (labyrinth[row, column].Value == Cell.Empty || 
+                labyrinth[row, column].Value == Cell.Player)
             {
                 labyrinth[row, column].Value = Cell.Block;
                 visitedCells.Enqueue(labyrinth[row, column]);
@@ -315,13 +319,15 @@ namespace Labyrinth
         {
             if (this.Position == null)
             {
-                throw new ArgumentException("The value of the start cell cannot be null");
+                throw new ArgumentException(
+                    "The value of the start cell cannot be null");
             }
 
             Queue<Cell> visitedCells = new Queue<Cell>();
             Cell[,] clonedLabyrinth = this.Clone();
 
-            this.VisitCell(clonedLabyrinth, visitedCells, this.Position.X, this.Position.Y);
+            this.VisitCell(clonedLabyrinth, visitedCells, 
+                this.Position.X, this.Position.Y);
 
             while (visitedCells.Count > 0)
             {
