@@ -40,6 +40,25 @@ namespace Labyrinth.Tests
         }
 
         [TestMethod]
+        public void AddThreeDifferentScoresTest()
+        {
+            ScoreBoard scoreBoard = new ScoreBoard();
+            scoreBoard.AddNewScore(4, "Pesho");
+            scoreBoard.AddNewScore(7, "Gosho");
+            scoreBoard.AddNewScore(5, "Dragan");
+            List<Score> actual = scoreBoard.Scores;
+            List<Score> expected = new List<Score>()
+            {
+                new Score(4, "Pesho"),
+                new Score(7, "Gosho"),
+                new Score(5, "Dragan")
+            };
+            expected.Sort();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void AddThreeScoresCountTest()
         {
             ScoreBoard scoreBoard = new ScoreBoard();
