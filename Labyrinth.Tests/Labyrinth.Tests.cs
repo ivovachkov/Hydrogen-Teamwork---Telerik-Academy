@@ -186,7 +186,7 @@ X X X X X X X
         }
 
         [TestMethod]
-        public void LabyrinthMoveUpRight()
+        public void LabyrinthMoveRight()
         {
             PlayerPosition startPosition = new PlayerPosition(3, 3);
 
@@ -380,9 +380,218 @@ X X X X X X X
         }
 
         [TestMethod]
-        public void LaburintMain()
+        public void PlayerCommandUp()
         {
-           
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+            int x = 3;
+            int y = 3;
+
+            privateObject.Invoke("ProcessMove", "u", x, y);
+
+
+            string result =
+                @"X X X X X X X 
+X - X - - - X 
+X - - * X - X 
+X - - - - - X 
+X - X - - - - 
+X - - - - - X 
+X X X X X X X 
+";
+            string expected = labyrinth.ToString();
+            Assert.AreEqual(expected, result);  
+        }
+
+
+        [TestMethod]
+        public void PlayerCommanDownTest()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "d", x, y);
+
+            string result =
+                @"X X X X X X X 
+X - X - - - X 
+X - - - X - X 
+X - - - - - X 
+X - X * - - - 
+X - - - - - X 
+X X X X X X X 
+";
+            string expected = labyrinth.ToString();
+            Assert.AreEqual(expected, result);
+        }
+
+
+        [TestMethod]
+        public void PlayerCommanLeftTest()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "l", x, y);
+
+            string result =
+                @"X X X X X X X 
+X - X - - - X 
+X - - - X - X 
+X - * - - - X 
+X - X - - - - 
+X - - - - - X 
+X X X X X X X 
+";
+            string expected = labyrinth.ToString();
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void PlayerCommandRight()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "r", x, y);
+
+            string result =
+                @"X X X X X X X 
+X - X - - - X 
+X - - - X - X 
+X - - - * - X 
+X - X - - - - 
+X - - - - - X 
+X X X X X X X 
+";
+            string expected = labyrinth.ToString();
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void PlayerCommandRestart()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "restart", x, y);
+
+
+            Assert.AreEqual(true, labyrinth.IsGameRestarted);
+        }
+
+        [TestMethod]
+        public void PlayerCommandExit()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "exit", x, y);
+
+
+            Assert.AreEqual(false, labyrinth.IsRunning);
         }
     }
 }
