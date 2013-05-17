@@ -9,7 +9,7 @@ namespace Labyrinth
         public const int LabyrinthSize = 7;
 
         private readonly Random randomNumber = new Random();
-        private bool isWonWithEscape;
+        private bool isWonWithEscape =false;
         private PlayerPosition position;
         private ScoreBoard scoreBoard = new ScoreBoard();
         private readonly Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
