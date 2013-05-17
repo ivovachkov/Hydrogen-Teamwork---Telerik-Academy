@@ -58,6 +58,18 @@ namespace Labyrinth
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (((Cell)obj).Row == this.Row &&
+                ((Cell)obj).Column == this.Column &&
+                ((Cell)obj).Value == this.Value)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public object Clone()
         {
             Cell cloned = new Cell(this.Row, this.Column, this.Value);
