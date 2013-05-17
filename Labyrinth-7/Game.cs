@@ -19,17 +19,17 @@ namespace Labyrinth
             }
         }
 
-        public bool IsGenerationDone
-        {
-            get
-            {
-                return isFinished;
-            }
-            set
-            {
-                isFinished = value;
-            }
-        }
+        //public bool IsGenerationDone
+        //{
+        //    get
+        //    {
+        //        return isFinished;
+        //    }
+        //    set
+        //    {
+        //        isFinished = value;
+        //    }
+        //}
 
         public int CurrentMoves
         {

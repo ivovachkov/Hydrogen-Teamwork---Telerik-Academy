@@ -12,7 +12,7 @@ namespace Labyrinth
         private bool isWonWithEscape;
         private PlayerPosition position = new PlayerPosition();
         private ScoreBoard scoreBoard = new ScoreBoard();
-        private Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
+        private readonly Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
 
         public Labyrinth(PlayerPosition startPosition)
         {
@@ -82,10 +82,11 @@ namespace Labyrinth
 
             while (true)
             {
-                this.IsGenerationDone = false;
+               // this.IsGenerationDone = false;
                 this.IsWonWithEscape = false;
 
-                while (!this.IsGenerationDone)
+                //while (!this.IsGenerationDone)
+                while(true)
                 {
                     this.Generate();
 
@@ -125,26 +126,25 @@ namespace Labyrinth
                 {
                     case "d":
                         ProcessMoveDown(ref x, y);
-                        Console.WriteLine(this);
+                        //Console.WriteLine(this);
                         break;
                     case "u":
                         ProcessMoveUp(ref x, y);
-                        Console.WriteLine(this);
+                        //Console.WriteLine(this);
                         break;
                     case "r":
                         ProcessMoveRight(x, ref y);
-                        Console.WriteLine(this);
+                        //Console.WriteLine(this);
                         break;
                     case "l":
                         ProcessMoveLeft(x, ref y);
-                        Console.WriteLine(this);
+                        //Console.WriteLine(this);
                         break;
                     case "top":
                         Console.WriteLine(this.ScoreBoard);
-                        Console.WriteLine(this);
+                        //Console.WriteLine(this);
                         break;
                     case "restart":
-                        this.IsRunning = true;
                         return;
                     case "exit":
                         Console.WriteLine(Message.GoodBye);
@@ -154,9 +154,11 @@ namespace Labyrinth
                         Console.WriteLine(Message.InvalidCommand);
                         break;
                 }
+
+                Console.WriteLine(this);
             }
         }
-
+ 
         private void ProcessMoveLeft(int x, ref int y)
         {
             if (this.board[x, y - 1].Value == '-')
@@ -178,7 +180,7 @@ namespace Labyrinth
                 this.IsWonWithEscape = true;
             }
         }
-
+      
         private void ProcessMoveRight(int x, ref int y)
         {
             if (this.board[x, y + 1].Value == '-')
@@ -282,18 +284,6 @@ namespace Labyrinth
             this.board[this.Position.X, this.Position.Y].Value = '*';
 
             return this.Clone();
-        }
-
-        //The is a posible that at the beginning we are stuck and we can't move.
-        private bool IsBlocked(int rowIndex, int columnIndex)
-        {
-            bool isTopBlocked = this.board[rowIndex - 1, columnIndex].Value == 'x';
-            bool isBottomBlocked = this.board[rowIndex + 1, columnIndex].Value == 'x';
-            bool isLeftBlocked = this.board[rowIndex, columnIndex - 1].Value == 'x';
-            bool isRightblocked = this.board[rowIndex, columnIndex + 1].Value == 'x';
-            bool isBlocked = isTopBlocked && isBottomBlocked && isLeftBlocked && isRightblocked;
-
-            return isBlocked;
         }
 
         private bool IsOnBorder(int rowIndex, int columnIndex)

@@ -8,10 +8,10 @@
         public PlayerPosition()
         { }
 
-        public PlayerPosition(int positionX, int positionY)
+        public PlayerPosition(int x, int y)
         {
-            this.X = positionX;
-            this.Y = positionY;
+            this.X = x;
+            this.Y = y;
         }
 
         public int Y
