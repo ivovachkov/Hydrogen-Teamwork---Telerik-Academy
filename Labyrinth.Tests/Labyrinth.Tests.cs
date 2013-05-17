@@ -16,12 +16,17 @@ namespace Labyrinth.Tests
 		}
 
         [TestMethod]
-        
-        public void Position_NullValue()
+        public void IsInBorderTest()
         {
-            PlayerPosition startPosition = new PlayerPosition();
-            startPosition = null;
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
             Labyrinth labyrinth = new Labyrinth(startPosition);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int zero = 0;
+
+            var actual = privateObject.Invoke("IsOnBorder", zero, zero);
+            var expected = true;
+            Assert.AreEqual(expected, actual);
         }
 	}
 }

@@ -26,7 +26,6 @@ namespace Labyrinth.Tests
             string moveDirrection = "d";
             string expected = "Invalid move!";
             string actual = "";
-            actual = "";
             Assert.AreEqual(expected, actual);
         }
         
