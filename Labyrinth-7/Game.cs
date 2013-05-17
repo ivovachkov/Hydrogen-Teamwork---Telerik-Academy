@@ -15,7 +15,7 @@
 
             protected set
             {
-                isRunning = value;
+                this.isRunning = value;
             }
         }
 

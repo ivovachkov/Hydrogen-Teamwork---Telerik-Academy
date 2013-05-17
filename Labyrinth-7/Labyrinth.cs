@@ -9,7 +9,7 @@ namespace Labyrinth
         public const int LabyrinthSize = 7;
 
         private readonly Random randomNumber = new Random();
-        private bool isWonWithEscape =false;
+        private bool isWonWithEscape = false;
         private PlayerPosition position;
         private ScoreBoard scoreBoard = new ScoreBoard();
         private readonly Cell[,] board = new Cell[LabyrinthSize, LabyrinthSize];
@@ -48,6 +48,7 @@ namespace Labyrinth
             {
                 return this.isWonWithEscape;
             }
+
             set
             {
                 this.isWonWithEscape = value;
@@ -130,7 +131,7 @@ namespace Labyrinth
                 Console.Write(Message.ValidCommands);
                 string moveDirection = Console.ReadLine().ToLower();
 
-                ProcessMove(moveDirection, ref x, ref y);
+                this.ProcessMove(moveDirection, ref x, ref y);
 
                 if (this.IsGameRestarted)
                 {
@@ -138,7 +139,7 @@ namespace Labyrinth
                 }
                 else if (this.IsRunning)
                 {
-                    IsGameWon(x, y);
+                    this.IsGameWon(x, y);
                     Console.WriteLine(this);
                 }
             }
@@ -149,16 +150,16 @@ namespace Labyrinth
             switch (moveDirection)
             {
                 case "d":
-                    ProcessMoveDown(ref x, y);
+                    this.ProcessMoveDown(ref x, y);
                     break;
                 case "u":
-                    ProcessMoveUp(ref x, y);
+                    this.ProcessMoveUp(ref x, y);
                     break;
                 case "r":
-                    ProcessMoveRight(x, ref y);
+                    this.ProcessMoveRight(x, ref y);
                     break;
                 case "l":
-                    ProcessMoveLeft(x, ref y);
+                    this.ProcessMoveLeft(x, ref y);
                     break;
                 case "top":
                     Console.WriteLine(this.ScoreBoard);
@@ -174,14 +175,13 @@ namespace Labyrinth
                     Console.WriteLine(Message.InvalidCommand);
                     break;
             }
-
         }
 
         private bool IsGameWon(int x, int y)
         {
             if (this.IsOnBorder(x, y))
             {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
+                Console.WriteLine(Message.Congratulations, this.CurrentMoves);
                 this.IsRunning = false;
                 this.IsWonWithEscape = true;
 
@@ -261,6 +261,7 @@ namespace Labyrinth
                 {
                     result.Append(this.board[row, col].Value).Append(" ");
                 }
+
                 result.AppendLine();
             }
 
@@ -273,7 +274,7 @@ namespace Labyrinth
             {
                 for (int column = 0; column < this.board.GetLength(1); column++)
                 {
-                    int randomValue = randomNumber.Next(4);
+                    int randomValue = this.randomNumber.Next(4);
                     if (randomValue == 0)
                     {
                         this.board[row, column] = new Cell(row, column, '-');
@@ -335,10 +336,10 @@ namespace Labyrinth
                 }
 
                 // We are visiting each of the neighbours of the current cell.
-                VisitCell(clonedLabyrinth, visitedCells, row, column + 1);
-                VisitCell(clonedLabyrinth, visitedCells, row, column - 1);
-                VisitCell(clonedLabyrinth, visitedCells, row + 1, column);
-                VisitCell(clonedLabyrinth, visitedCells, row - 1, column);
+                this.VisitCell(clonedLabyrinth, visitedCells, row, column + 1);
+                this.VisitCell(clonedLabyrinth, visitedCells, row, column - 1);
+                this.VisitCell(clonedLabyrinth, visitedCells, row + 1, column);
+                this.VisitCell(clonedLabyrinth, visitedCells, row - 1, column);
             }
 
             return false;

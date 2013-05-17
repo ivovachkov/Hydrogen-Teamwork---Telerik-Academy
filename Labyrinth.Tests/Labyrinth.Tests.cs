@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Labyrinth.Tests
@@ -146,7 +147,6 @@ X X X X X X X
             string expected = labyrinth.ToString();
             Assert.AreEqual(expected, result);
         }
-
 
         [TestMethod]
         public void LabyrinthMoveLeftTest()
@@ -681,6 +681,40 @@ X X X X X X X
 ";
             string expected = labyrinth.ToString();
             Assert.AreNotEqual(labyrinth.ToString(), result);
+        }
+
+        [TestMethod]
+        public void PlayerInvalidCommand()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+            int x = 3;
+            int y = 3;
+            
+
+            string result = string.Empty;
+            StringReader a = new StringReader(result);
+
+            Console.SetIn(a);
+            privateObject.Invoke("ProcessMove", "abcd", x, y);
+            string b = a.ReadLine();
+            Assert.AreEqual("Invalid command!", b);
         }
     }
 }
