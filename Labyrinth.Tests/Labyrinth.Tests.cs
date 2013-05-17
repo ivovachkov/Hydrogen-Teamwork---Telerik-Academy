@@ -593,5 +593,56 @@ X X X X X X X
 
             Assert.AreEqual(false, labyrinth.IsRunning);
         }
+
+        [TestMethod]
+        public void PlayerCommandTopTest()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+            ScoreBoard scoreBoard = new ScoreBoard();
+            scoreBoard.AddNewScore(4, "Pesho");
+            scoreBoard.AddNewScore(7, "Gosho");
+            scoreBoard.AddNewScore(5, "Dragan");
+            labyrinth.ScoreBoard = scoreBoard;
+            string actual = labyrinth.ScoreBoard.ToString();
+            string expected = @"
+Top 5:
+
+1. Pesho ---> 4 moves
+2. Dragan ---> 5 moves
+3. Gosho ---> 7 moves
+
+
+";
+            int x = 3;
+            int y = 3;
+            privateObject.Invoke("ProcessMove", "top", x, y);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "The board cannot be null")]
+        public void LabyrinthConstructorNullTest()
+        {
+            Labyrinth labyrinth = new Labyrinth(new PlayerPosition(0, 0), null);
+        }
     }
 }

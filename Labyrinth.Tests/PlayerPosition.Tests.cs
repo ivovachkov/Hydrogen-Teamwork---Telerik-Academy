@@ -13,7 +13,7 @@ namespace Labyrinth.Tests
             PlayerPosition position = new PlayerPosition(-2, 2);
         }
 
-         [TestMethod]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException), "The value cannot be negative")]
         public void SetPositionXNegativeTest()
         {
