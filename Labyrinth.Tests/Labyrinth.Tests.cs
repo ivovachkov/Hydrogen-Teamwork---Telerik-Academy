@@ -222,5 +222,138 @@ X X X X X X X
             Assert.AreEqual(expected, result);
         }
 
+        [TestMethod]
+        public void IsExitPathAvailableTrue()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+           var result = privateObject.Invoke("ExitPathAvailable");
+
+//            string result =
+//                @"X X X X X X X 
+//X - X - - - X 
+//X - - - X - X 
+//X - - - * - X 
+//X - X - - - - 
+//X - - - - - X 
+//X X X X X X X 
+//";
+            //string expected = labyrinth.ToString();
+           Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void IsExitPathAvailableFalse()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X---X",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+            var result = privateObject.Invoke("ExitPathAvailable");
+
+            //            string result =
+            //                @"X X X X X X X 
+            //X - X - - - X 
+            //X - - - X - X 
+            //X - - - * - X 
+            //X - X - - - - 
+            //X - - - - - X 
+            //X X X X X X X 
+            //";
+            //string expected = labyrinth.ToString();
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void IsWonWithEscapeFalse()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X---X",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+
+
+            var result = labyrinth.IsWonWithEscape;
+
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void GetBoardTest()
+        {
+            //PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            //string[] rawData = new string[Labyrinth.LabyrinthSize]
+            //{
+            //    "XXXXXXX",
+            //    "X-X---X",
+            //    "X---X-X",
+            //    "X--*--X",
+            //    "X-X---X",
+            //    "X-----X",
+            //    "XXXXXXX"
+            //};
+
+            //Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            //Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+
+
+            //var result = labyrinth.Board;
+
+            //for (int row = 0; row < Labyrinth.LabyrinthSize; row++)
+            //{
+            //    for (int column = 0; column < Labyrinth.LabyrinthSize; column++)
+            //    {
+            //        Assert.AreEqual(board[row, column], labyrinth.Board[row, column]);
+            //    }
+            //}
+        }
     }
 }
