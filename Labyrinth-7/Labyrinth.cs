@@ -24,6 +24,22 @@ namespace Labyrinth
             this.Position = startPosition;
         }
 
+        public Labyrinth(PlayerPosition startPosition, Cell[,] board)
+        {
+            if (startPosition == null)
+            {
+                throw new ArgumentNullException("The start position cannot be null");
+            }
+
+            if (board == null)
+            {
+                throw new ArgumentNullException("The board cannot be null");
+            }
+
+            this.Position = startPosition;
+            this.board = board;
+        }
+
         #region Properties
 
         public bool IsWonWithEscape
@@ -360,5 +376,10 @@ namespace Labyrinth
         }
 
         #endregion
+
+        private string test(string a, string b)
+        {
+            return a + b;
+        }
     }
 }
