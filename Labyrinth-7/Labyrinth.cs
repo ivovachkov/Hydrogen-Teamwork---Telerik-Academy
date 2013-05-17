@@ -98,10 +98,8 @@ namespace Labyrinth
 
             while (true)
             {
-               // this.IsGenerationDone = false;
                 this.IsWonWithEscape = false;
 
-                //while (!this.IsGenerationDone)
                 while(true)
                 {
                     this.Generate();
@@ -138,41 +136,58 @@ namespace Labyrinth
                 Console.Write(Message.ValidCommands);
                 string moveDirection = Console.ReadLine().ToLower();
 
-                switch (moveDirection)
-                {
-                    case "d":
-                        ProcessMoveDown(ref x, y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "u":
-                        ProcessMoveUp(ref x, y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "r":
-                        ProcessMoveRight(x, ref y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "l":
-                        ProcessMoveLeft(x, ref y);
-                        //Console.WriteLine(this);
-                        break;
-                    case "top":
-                        Console.WriteLine(this.ScoreBoard);
-                        //Console.WriteLine(this);
-                        break;
-                    case "restart":
-                        return;
-                    case "exit":
-                        Console.WriteLine(Message.GoodBye);
-                        this.isRunning = false;
-                        return;
-                    default:
-                        Console.WriteLine(Message.InvalidCommand);
-                        break;
-                }
+                ProcessMove(moveDirection, ref x, ref y);
+                
 
+                IsGameWon(x, y);
                 Console.WriteLine(this);
             }
+        }
+  
+        private void ProcessMove(string moveDirection, ref int x, ref int y)
+        {
+            switch (moveDirection)
+            {
+                case "d":
+                    ProcessMoveDown(ref x, y);
+                    break;
+                case "u":
+                    ProcessMoveUp(ref x, y);
+                    break;
+                case "r":
+                    ProcessMoveRight(x, ref y);
+                    break;
+                case "l":
+                    ProcessMoveLeft(x, ref y);
+                    break;
+                case "top":
+                    Console.WriteLine(this.ScoreBoard);
+                    break;
+                case "restart":
+                    return;
+                case "exit":
+                    Console.WriteLine(Message.GoodBye);
+                    this.isRunning = false;
+                    return;
+                default:
+                    Console.WriteLine(Message.InvalidCommand);
+                    break;
+            }
+            
+        }
+
+        private bool IsGameWon(int x, int y)
+        {
+            if (this.IsOnBorder(x,y))
+            {
+                Console.WriteLine(Message.Congratulations, CurrentMoves);
+                this.IsRunning = false;
+                this.IsWonWithEscape = true;
+
+                return true;
+            }
+
+            return false;
         }
  
         private void ProcessMoveLeft(int x, ref int y)
@@ -187,13 +202,6 @@ namespace Labyrinth
             else
             {
                 Console.WriteLine(Message.InvalidMove);
-            }
-
-            if (y == 0)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
             }
         }
       
@@ -210,13 +218,6 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.InvalidMove);
             }
-
-            if (y == LabyrinthSize - 1)
-            {
-                Console.WriteLine(Message.Congratulations, this.CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
-            }
         }
 
         private void ProcessMoveUp(ref int x, int y)
@@ -232,13 +233,6 @@ namespace Labyrinth
             {
                 Console.WriteLine(Message.InvalidMove);
             }
-
-            if (x == 0)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
-            }
         }
 
         private void ProcessMoveDown(ref int x, int y)
@@ -253,13 +247,6 @@ namespace Labyrinth
             else
             {
                 Console.WriteLine(Message.InvalidMove);
-            }
-
-            if (x == LabyrinthSize - 1)
-            {
-                Console.WriteLine(Message.Congratulations, CurrentMoves);
-                this.IsRunning = false;
-                this.IsWonWithEscape = true;
             }
         }
 
