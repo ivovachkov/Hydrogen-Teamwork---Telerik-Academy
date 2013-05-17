@@ -21,7 +21,7 @@ namespace Labyrinth.Tests
         }
 
         [TestMethod]
-        public void AddThreeScoresTest()
+        public void AddThreeEqualScoresTest()
         {
             ScoreBoard scoreBoard = new ScoreBoard();
             scoreBoard.AddNewScore(4, "Pesho");
@@ -45,7 +45,7 @@ namespace Labyrinth.Tests
             ScoreBoard scoreBoard = new ScoreBoard();
             scoreBoard.AddNewScore(4, "Pesho");
             scoreBoard.AddNewScore(7, "Gosho");
-            scoreBoard.AddNewScore(5, "Dragan");
+            scoreBoard.AddNewScore(5, "Drago");
             List<Score> actual = scoreBoard.Scores;
             List<Score> expected = new List<Score>()
             {
@@ -55,7 +55,7 @@ namespace Labyrinth.Tests
             };
             expected.Sort();
 
-            CollectionAssert.AreEqual(expected, actual);
+            CollectionAssert.AreNotEqual(expected, actual);
         }
 
         [TestMethod]

@@ -15,20 +15,6 @@ namespace Labyrinth.Tests
 			Labyrinth labyrinth = new Labyrinth(startPosition);
 		}
 
-        [TestMethod]        
-        public void Test()
-        {
-            PlayerPosition startPosition = new PlayerPosition(3,3);
-            
-            Labyrinth labyrinth = new Labyrinth(startPosition);
-
-            var privateObject = new PrivateObject(labyrinth);
-
-            var actual = privateObject.Invoke("test","here","there");
-
-            Assert.AreEqual("herethere", actual);
-        }
-
         [TestMethod]
         public void IsOnBoarderTest()
         {
