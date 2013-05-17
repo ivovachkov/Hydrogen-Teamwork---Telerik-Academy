@@ -3,7 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Labyrinth.Tests
 {
-    public class GameTests
+	[TestClass]
+	public class GameTests
     {
         [TestMethod()]
         public void TryMove()
@@ -29,6 +30,6 @@ namespace Labyrinth.Tests
             actual = "";
             Assert.AreEqual(expected, actual);
         }
-        
+
     }
 }
