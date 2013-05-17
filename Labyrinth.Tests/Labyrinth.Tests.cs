@@ -644,5 +644,43 @@ Top 5:
         {
             Labyrinth labyrinth = new Labyrinth(new PlayerPosition(0, 0), null);
         }
+
+
+        [TestMethod]
+        public void ValidRandomGenerate()
+        {
+            PlayerPosition startPosition = new PlayerPosition(3, 3);
+
+            string[] rawData = new string[Labyrinth.LabyrinthSize]
+            {
+                "XXXXXXX",
+                "X-X---X",
+                "X---X-X",
+                "X--*--X",
+                "X-X----",
+                "X-----X",
+                "XXXXXXX"
+            };
+
+            Cell[,] board = LabyrinthDataFromStringArray(rawData);
+
+            Labyrinth labyrinth = new Labyrinth(startPosition, board);
+
+            var privateObject = new PrivateObject(labyrinth);
+
+            privateObject.Invoke("Generate");
+
+            string result =
+                @"X X X X X X X 
+X - X - - - X 
+X - - - X - X 
+X - - * - - X 
+X - X - - - - 
+X - - - - - X 
+X X X X X X X 
+";
+            string expected = labyrinth.ToString();
+            Assert.AreNotEqual(labyrinth.ToString(), result);
+        }
     }
 }
