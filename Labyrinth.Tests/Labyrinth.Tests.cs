@@ -14,5 +14,14 @@ namespace Labyrinth.Tests
 			startPosition = null;
 			Labyrinth labyrinth = new Labyrinth(startPosition);
 		}
+
+        [TestMethod]
+        
+        public void Position_NullValue()
+        {
+            PlayerPosition startPosition = new PlayerPosition();
+            startPosition = null;
+            Labyrinth labyrinth = new Labyrinth(startPosition);
+        }
 	}
 }

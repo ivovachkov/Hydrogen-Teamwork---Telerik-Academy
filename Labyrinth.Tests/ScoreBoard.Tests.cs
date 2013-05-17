@@ -28,7 +28,7 @@ namespace Labyrinth.Tests
             scoreBoard.AddNewScore(7, "Gosho");
             scoreBoard.AddNewScore(5, "Dragan");
             List<Score> actual = scoreBoard.Scores;
-            List<Score> expected = new List<Score>() 
+            List<Score> expected = new List<Score>()
             {
                 new Score(4, "Pesho"),
                 new Score(7, "Gosho"),
@@ -47,7 +47,7 @@ namespace Labyrinth.Tests
             scoreBoard.AddNewScore(7, "Gosho");
             scoreBoard.AddNewScore(5, "Dragan");
             List<Score> actual = scoreBoard.Scores;
-            List<Score> expected = new List<Score>() 
+            List<Score> expected = new List<Score>()
             {
                 new Score(4, "Pesho"),
                 new Score(7, "Gosho"),
